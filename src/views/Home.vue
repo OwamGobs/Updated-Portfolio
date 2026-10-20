@@ -14,8 +14,9 @@ import profilePhoto from "../assets/profile.jpg";
       <nav class="nav-links">
         <a href="#home" class="active">Home</a>
         <RouterLink to="/about">About</RouterLink>
-        <a href="#work">Work</a>
+        <a href="#work">Projects</a>
         <a href="#contact">Contact</a>
+        <RouterLink to="/certifications">Certifications</RouterLink>
       </nav>
     </header>
 
@@ -32,10 +33,10 @@ import profilePhoto from "../assets/profile.jpg";
 
         <p class="subtitle">An aspiring software developer</p>
 
-        <a href="#work" class="projects-button">
+        <RouterLink to="/projects" class="projects-button">
           View my projects
           <span aria-hidden="true">→</span>
-        </a>
+        </RouterLink>
       </div>
 
       <!-- Profile photo -->
@@ -46,10 +47,41 @@ import profilePhoto from "../assets/profile.jpg";
           class="portrait"
         />
       </div>
-    </section>
 
-    <!-- Bottom accent -->
-    <div class="bottom-strip"></div>
+      <!-- Social media icons -->
+      <div class="social-links d-flex align-items-center gap-3">
+        <a
+          href="https://github.com/OwamGobs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-icon"
+          aria-label="GitHub"
+        >
+          <i class="bi bi-github"></i>
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/owam-gobingca-08650b324/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-icon"
+          aria-label="LinkedIn"
+        >
+          <i class="bi bi-linkedin"></i>
+        </a>
+
+        <a
+          href="mailto:owamgobingca@gmail.com"
+          class="social-icon"
+          aria-label="Email"
+        >
+          <i class="bi bi-envelope-fill"></i>
+        </a>
+      </div>
+
+      <!-- Keep your existing bottom strip -->
+      <div class="bottom-strip"></div>
+    </section>
   </main>
 </template>
 
@@ -88,17 +120,17 @@ a {
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
-  overflow: hidden;
+  overflow: clip;
   display: flex;
   flex-direction: column;
   padding: 24px 4.2% 32px;
-  background:
-    radial-gradient(
-      ellipse at 12% 75%,
-      rgba(255, 246, 247, 0.95) 0%,
-      transparent 48%
-    ),
-    linear-gradient(115deg, #ded9da 0%, #c9c4c5 48%, #a8a6a7 100%);
+  color: #f4f4f4;
+  background: radial-gradient(
+    ellipse at 38% 48%,
+    #3f3f3f 0%,
+    #696969 54%,
+    #969696 100%
+  );
 }
 
 /* Navigation */
@@ -109,13 +141,21 @@ a {
   justify-content: space-between;
   gap: 30px;
   width: 100%;
-  position: relative;
-  z-index: 2;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar a,
+.projects-button,
+.social-icon {
+  text-decoration: none;
 }
 
 .logo {
   display: flex;
   flex-direction: column;
+  color: #000;
   font-size: 20px;
   line-height: 0.98;
   font-weight: 800;
@@ -133,6 +173,7 @@ a {
 }
 
 .nav-links a {
+  color: #f4f4f4;
   font-size: 16px;
   font-weight: 600;
   transition: color 0.2s ease;
@@ -168,6 +209,7 @@ a {
   font-size: clamp(42px, 6.15vw, 94px);
   line-height: 1.02;
   font-weight: 800;
+  color: #171e21;
   font-style: italic;
   letter-spacing: -0.075em;
 }
@@ -187,6 +229,7 @@ a {
   margin: 0 0 22px;
   font-size: clamp(20px, 3.1vw, 44px);
   line-height: 1.2;
+  color: #171e21;
   font-weight: 700;
   font-style: italic;
   letter-spacing: -0.065em;
@@ -207,8 +250,8 @@ a {
   font-size: 16px;
   font-weight: 500;
   transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+    transform 0.25s ease,
+    background 0.25s ease box-shadow 0.25s ease;
 }
 
 .projects-button span {
@@ -238,15 +281,48 @@ a {
   border-radius: 24% 24% 24% 24%;
 }
 
-/* Burgundy bottom line */
-
-.bottom-strip {
+.social-links {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 9px;
+  right: 4.2%;
+  bottom: 28px;
+  z-index: 5;
+}
+
+.social-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(146, 0, 57, 0.25);
+  border-radius: 50%;
+  color: #920039;
+  background: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 20px;
+  transition: all 0.25s ease;
+}
+
+.social-icon:hover {
   background: #920039;
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(146, 0, 57, 0.2);
+}
+
+.social-icon:focus-visible {
+  outline: 3px solid #f47b0b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .social-links {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    justify-content: center;
+    margin: 20px 0;
+  }
 }
 
 /* Tablets */
@@ -339,6 +415,118 @@ a {
 
   .portrait-wrapper {
     width: min(75%, 300px);
+  }
+}
+
+/* ===== Polished entrance animations ===== */
+
+@keyframes introReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portraitReveal {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes portraitFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Text enters in a smooth sequence */
+.intro h1 {
+  animation: introReveal 0.8s ease-out both;
+}
+
+.intro h2 {
+  animation: introReveal 0.8s ease-out 0.15s both;
+}
+
+.intro .subtitle {
+  animation: introReveal 0.8s ease-out 0.3s both;
+}
+
+.intro .projects-button {
+  animation: introReveal 0.8s ease-out 0.45s both;
+}
+
+/* Portrait appears after the text */
+.portrait-wrapper {
+  animation: portraitReveal 0.9s ease-out 0.2s both;
+}
+
+/* Gentle movement after the entrance animation */
+.portrait {
+  animation: portraitFloat 4s ease-in-out 1.2s infinite;
+  transition: filter 0.3s ease;
+}
+
+.portrait:hover {
+  filter: saturate(1.08);
+}
+
+/* More responsive button feedback */
+.projects-button {
+  box-shadow: 0 0 0 rgba(146, 0, 57, 0);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.projects-button:hover {
+  background: #ff922b;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(146, 0, 57, 0.16);
+}
+
+.projects-button span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.projects-button:hover span {
+  transform: translateX(5px);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .intro h1,
+  .intro h2,
+  .intro .subtitle,
+  .intro .projects-button,
+  .portrait-wrapper,
+  .portrait {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 </style>

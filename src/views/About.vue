@@ -1,16 +1,13 @@
-
 <template>
   <div class="about-page">
     <!-- Navigation -->
     <header class="navbar">
-      <RouterLink to="/" class="logo">
-        Owam Gobinca<span>_</span>
-      </RouterLink>
+      <RouterLink to="/" class="logo"> Owam Gobinca<span>_</span> </RouterLink>
 
       <nav class="nav-links">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/About" class="active">About</RouterLink>
-        <RouterLink to="/projects">Work</RouterLink>
+        <RouterLink to="/projects">Projects</RouterLink>
         <RouterLink to="/contact">Contact</RouterLink>
       </nav>
     </header>
@@ -18,97 +15,91 @@
     <!-- About Hero -->
     <main>
       <section class="about-hero">
-        <div class="about-content">
+        <div class="about-heading">
           <p class="eyebrow">GET TO KNOW ME</p>
 
           <h1>
             A little about
             <span>me.</span>
           </h1>
-
-          <h2>
-            Hello! I'm <span>Owam Gobinca</span>,
-            an aspiring software developer.
-          </h2>
-
-          <p class="intro">
-            I'm passionate about technology, creativity, and building
-            digital experiences that solve real problems. I enjoy turning
-            ideas into functional, user-friendly websites and applications.
-          </p>
-
-          <p class="intro">
-            As I continue to grow as a developer, I'm always learning new
-            skills, exploring different technologies, and challenging
-            myself to build better projects. My goal is to create digital
-            solutions that are useful, accessible, and enjoyable to use.
-          </p>
-
-          <RouterLink to="/projects" class="primary-button">
-            Explore my work <span>↗</span>
-          </RouterLink>
         </div>
 
-        <div class="about-visual">
-          <div class="image-frame">
-            <img
-              src="../assets/profile.jpg"
-              alt="Portrait of Owam Gobinca"
-              class="profile-image"
-            />
+        <div class="about-body">
+          <div class="about-content">
+            <h2>
+              Hello! I'm <span>Owam Gobinca</span>, an aspiring software
+              developer.
+            </h2>
+
+            <p class="intro">
+              I’m Owam, an aspiring software developer with a passion for
+              technology, creativity and problem-solving. My journey into
+              software development began in high school, where I was introduced
+              to Delphi and became interested in understanding how applications
+              work and how code can be used to bring ideas to life.
+            </p>
+
+            <p class="intro about-continuation">
+              I’m currently developing my skills at Life Choices Academy, where
+              I’ve been building a foundation in web development and
+              programming. Through hands-on projects, I’ve gained experience
+              with HTML, CSS, JavaScript, and Python, while also learning to use
+              Git and GitHub to manage and collaborate on projects.
+            </p>
+
+            <p>
+              I enjoy turning ideas into functional, user-friendly websites and
+              exploring new technologies that challenge me to grow. Working on
+              individual and team projects has helped me strengthen my
+              problem-solving skills, adapt to challenges, and understand the
+              importance of collaboration in software development.
+            </p>
+
+            <p class="intro">
+              As I continue to grow as a developer, I'm always learning new
+              skills, exploring different technologies, and challenging myself
+              to build better projects. My goal is to create digital solutions
+              that are useful, accessible, and enjoyable to use.
+            </p>
+
+            <RouterLink to="/projects" class="primary-button">
+              Explore my work <span>↗</span>
+            </RouterLink>
           </div>
 
-          <div class="floating-note">
-            <span class="note-icon">✦</span>
-            <div>
-              <strong>Always learning</strong>
-              <p>Building. Improving. Growing.</p>
+          <div class="about-visual">
+            <div class="image-frame">
+              <img
+                src="../assets/profile.jpg"
+                alt="Portrait of Owam Gobinca"
+                class="profile-image"
+              />
             </div>
+
+            <div class="floating-note">
+              <span class="note-icon">✦</span>
+              <div>
+                <strong>Always learning</strong>
+                <p>Building. Improving. Growing.</p>
+              </div>
+            </div>
+
+            <span class="decorative-dot dot-one"></span>
+            <span class="decorative-dot dot-two"></span>
           </div>
 
-          <span class="decorative-dot dot-one"></span>
-          <span class="decorative-dot dot-two"></span>
-        </div>
-      </section>
-
-      <!-- Skills and interests -->
-      <section class="details-section">
-        <div class="section-heading">
-          <p class="eyebrow">WHAT I BRING</p>
-          <h2>My journey & interests</h2>
-          <p>
-            A growing skill set, a curious mindset, and a passion for
-            creating meaningful digital experiences.
+          <p class="intro about-continuation">
+            I’m currently developing my skills at Life Choices Academy, where
+            I’ve been building a foundation in web development and programming.
+            Through hands-on projects, I’ve gained experience with HTML, CSS,
+            JavaScript, and Python, while also learning to use Git and GitHub to
+            manage and collaborate on projects. I enjoy turning ideas into
+            functional, user-friendly websites and exploring new technologies
+            that challenge me to grow. Working on individual and team projects
+            has helped me strengthen my problem-solving skills, adapt to
+            challenges, and understand the importance of collaboration in
+            software development.
           </p>
-        </div>
-
-        <div class="details-grid">
-          <article class="detail-card">
-            <span class="card-number">01</span>
-            <h3>Web Development</h3>
-            <p>
-              Building responsive websites and interactive interfaces
-              using HTML, CSS, JavaScript, and Vue.js.
-            </p>
-          </article>
-
-          <article class="detail-card">
-            <span class="card-number">02</span>
-            <h3>Problem Solving</h3>
-            <p>
-              Breaking down challenges, learning from mistakes, and
-              finding practical solutions through code.
-            </p>
-          </article>
-
-          <article class="detail-card">
-            <span class="card-number">03</span>
-            <h3>Creative Thinking</h3>
-            <p>
-              Exploring design ideas and creating clean, accessible,
-              and user-friendly digital experiences.
-            </p>
-          </article>
         </div>
       </section>
 
@@ -120,8 +111,8 @@
           <span>There's more to build.</span>
         </h2>
         <p>
-          I'm excited to keep learning, collaborate with others, and turn
-          new ideas into projects that make a difference.
+          I'm excited to keep learning, collaborate with others, and turn new
+          ideas into projects that make a difference.
         </p>
         <RouterLink to="/contact" class="secondary-button">
           Let's connect <span>↗</span>
@@ -134,8 +125,6 @@
       <p>© {{ new Date().getFullYear() }} Owam Gobinca</p>
       <p>Designed with purpose. Built with passion.</p>
     </footer>
-
-    <div class="bottom-strip"></div>
   </div>
 </template>
 
@@ -143,23 +132,35 @@
 .about-page {
   --orange: #e87535;
   --burgundy: #651b32;
-  --text: #29252b;
-  --muted: #706b72;
+  --text: #f5f2f3;
+  --muted: #e6dfe2;
   --surface: #ffffff;
 
   min-height: 100vh;
   color: var(--text);
-  background: linear-gradient(135deg, #f8f7f8 0%, #eeebef 100%);
+  background: radial-gradient(
+    ellipse at 38% 48%,
+    #3f3f3f 0%,
+    #696969 54%,
+    #969696 100%
+  );
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .navbar {
+  --text: #29252b;
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
   min-height: 88px;
   padding: 20px 8%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  background: rgba(229, 221, 223, 0.94);
+  backdrop-filter: blur(8px);
 }
 
 .logo {
@@ -196,10 +197,13 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 75px 8% 100px;
+}
+
+.about-body {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-  gap: 75px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(180px, 0.85fr);
+  align-items: start;
+  gap: clamp(24px, 5vw, 75px);
 }
 
 .eyebrow {
@@ -210,7 +214,7 @@
   margin: 0 0 20px;
 }
 
-.about-content h1 {
+.about-heading h1 {
   margin: 0 0 26px;
   font-size: clamp(3rem, 5.5vw, 5.3rem);
   line-height: 1.04;
@@ -218,7 +222,7 @@
   font-weight: 800;
 }
 
-.about-content h1 span {
+.about-heading h1 span {
   color: var(--orange);
   font-style: italic;
 }
@@ -237,10 +241,11 @@
 
 .intro {
   max-width: 590px;
-  color: var(--muted);
+  color: #f5f2f3;
   font-size: 1rem;
   line-height: 1.9;
   margin: 0 0 17px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 .primary-button,
@@ -256,7 +261,9 @@
   color: white;
   font-weight: 700;
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .primary-button:hover,
@@ -270,6 +277,11 @@
   max-width: 410px;
   width: 100%;
   justify-self: center;
+}
+
+.about-continuation {
+  grid-column: 2;
+  max-width: 410px;
 }
 
 .image-frame {
@@ -291,6 +303,8 @@
 }
 
 .floating-note {
+  --muted: #706b72;
+
   position: absolute;
   bottom: 35px;
   left: -45px;
@@ -340,18 +354,6 @@
   background: var(--burgundy);
 }
 
-.details-section {
-  padding: 85px 8% 100px;
-  background: rgba(255, 255, 255, 0.62);
-}
-
-.section-heading {
-  max-width: 650px;
-  margin: 0 auto 45px;
-  text-align: center;
-}
-
-.section-heading h2,
 .closing-section h2 {
   margin: 0 0 18px;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -359,50 +361,9 @@
   line-height: 1.2;
 }
 
-.section-heading > p:last-child,
 .closing-section > p:not(.eyebrow) {
   color: var(--muted);
   line-height: 1.8;
-}
-
-.details-grid {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.detail-card {
-  padding: 30px;
-  border: 1px solid #e9e2e7;
-  border-radius: 10px;
-  background: white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.detail-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(40, 20, 35, 0.08);
-}
-
-.card-number {
-  color: var(--orange);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.detail-card h3 {
-  margin: 23px 0 12px;
-  font-size: 1.2rem;
-}
-
-.detail-card p {
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 0.93rem;
-  margin: 0;
 }
 
 .closing-section {
@@ -432,16 +393,14 @@
   font-size: 0.83rem;
 }
 
-.bottom-strip {
-  height: 9px;
-  background: var(--burgundy);
-}
-
-@media (max-width: 850px) {
-  .about-hero {
+@media (max-width: 560px) {
+  .about-body {
     grid-template-columns: 1fr;
     gap: 60px;
-    padding-top: 55px;
+  }
+
+  .about-continuation {
+    grid-column: 1;
   }
 
   .about-content {
@@ -456,14 +415,6 @@
 
   .about-visual {
     width: min(100%, 370px);
-  }
-
-  .details-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .detail-card {
-    padding: 25px;
   }
 }
 
@@ -483,7 +434,7 @@
     padding: 45px 6% 75px;
   }
 
-  .about-content h1 {
+  .about-heading h1 {
     letter-spacing: -1.5px;
   }
 
@@ -491,10 +442,6 @@
     left: -8px;
     bottom: 20px;
     padding: 12px;
-  }
-
-  .details-section {
-    padding: 70px 6%;
   }
 
   .footer {
