@@ -60,24 +60,6 @@ const credentialCount = credentialGroups.reduce(
 
 <template>
   <main class="certifications-page">
-    <!-- Navigation -->
-    <header class="navbar">
-      <RouterLink to="/" class="logo">
-        <span>Owam</span>
-        <span class="logo-accent">Gobinca_</span>
-      </RouterLink>
-
-      <nav class="nav-links" aria-label="Main navigation">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/projects">Work</RouterLink>
-        <RouterLink to="/certifications" class="active">
-          Certifications
-        </RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
-    </header>
-
     <!-- Introduction -->
     <section class="cert-hero">
       <p class="eyebrow">MY LEARNING JOURNEY</p>
@@ -207,48 +189,6 @@ const credentialCount = credentialGroups.reduce(
     #969696 100%
   );
   font-family: Inter, Arial, sans-serif;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-  padding: 25px 5%;
-}
-
-.logo {
-  display: flex;
-  flex-direction: column;
-  color: var(--ink);
-  font-size: 20px;
-  line-height: 0.98;
-  font-weight: 800;
-  letter-spacing: -1px;
-  text-decoration: none;
-}
-
-.logo-accent {
-  color: #d47a1b;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(14px, 2.5vw, 34px);
-}
-
-.nav-links a {
-  color: var(--ink);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: #ffad66;
 }
 
 .cert-hero {
@@ -560,20 +500,6 @@ const credentialCount = credentialGroups.reduce(
 }
 
 @media (max-width: 760px) {
-  .navbar {
-    align-items: flex-start;
-    padding: 22px 6%;
-  }
-
-  .nav-links {
-    justify-content: flex-end;
-    gap: 12px 15px;
-  }
-
-  .nav-links a {
-    font-size: 0.78rem;
-  }
-
   .cert-hero {
     padding: 65px 6% 16px;
   }
@@ -588,15 +514,6 @@ const credentialCount = credentialGroups.reduce(
 }
 
 @media (max-width: 480px) {
-  .navbar {
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  .nav-links {
-    justify-content: flex-start;
-  }
-
   .section-heading {
     align-items: flex-start;
     flex-direction: column;

@@ -1,17 +1,5 @@
 <template>
   <div class="about-page">
-    <!-- Navigation -->
-    <header class="navbar">
-      <RouterLink to="/" class="logo"> Owam Gobinca<span>_</span> </RouterLink>
-
-      <nav class="nav-links">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/About" class="active">About</RouterLink>
-        <RouterLink to="/projects">Projects</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
-    </header>
-
     <!-- About Hero -->
     <main>
       <section class="about-hero">
@@ -145,52 +133,6 @@
     #969696 100%
   );
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.navbar {
-  --text: #29252b;
-
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  min-height: 88px;
-  padding: 20px 8%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  background: rgba(229, 221, 223, 0.94);
-  backdrop-filter: blur(8px);
-}
-
-.logo {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: -0.7px;
-}
-
-.logo span {
-  color: var(--orange);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.nav-links a {
-  color: #504a52;
-  text-decoration: none;
-  font-size: 0.94rem;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--orange);
 }
 
 .about-hero {
@@ -419,17 +361,6 @@
 }
 
 @media (max-width: 560px) {
-  .navbar {
-    flex-direction: column;
-    padding: 22px 5%;
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 17px;
-  }
-
   .about-hero {
     padding: 45px 6% 75px;
   }

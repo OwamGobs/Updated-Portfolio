@@ -32,7 +32,7 @@ const projects = ref([
       "A student-focused application project designed to support the application process, with profile management and contact functionality.",
     technologies: ["Vue.js", "Node.js", "Express", "MySQL"],
     image: "",
-    liveUrl: "",
+    liveUrl: "https://api-production-275b.up.railway.app/",
     githubUrl: "",
   },
 ]);
@@ -72,21 +72,6 @@ async function toggleProjects() {
 
 <template>
   <main class="projects-page">
-    <!-- Navigation -->
-    <header class="navbar">
-      <RouterLink to="/" class="logo">
-        <span>Owam</span>
-        <span class="logo-accent">Gobinca_</span>
-      </RouterLink>
-
-      <nav class="nav-links" aria-label="Main navigation">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/projects" class="active">Work</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
-    </header>
-
     <!-- Page introduction -->
     <section class="projects-hero">
       <p class="eyebrow">MY SELECTED WORK</p>
@@ -269,46 +254,6 @@ async function toggleProjects() {
     #969696 100%
   );
   font-family: Inter, Arial, sans-serif;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-  padding: 25px 5%;
-}
-
-.logo {
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
-  line-height: 0.98;
-  font-weight: 800;
-  letter-spacing: -1px;
-  text-decoration: none;
-}
-
-.logo-accent {
-  color: #d47a1b;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(18px, 3vw, 42px);
-}
-
-.nav-links a {
-  color: var(--ink);
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: #ffad66;
 }
 
 .projects-hero {
@@ -667,20 +612,6 @@ async function toggleProjects() {
 }
 
 @media (max-width: 760px) {
-  .navbar {
-    align-items: flex-start;
-    padding: 22px 6%;
-  }
-
-  .nav-links {
-    justify-content: flex-end;
-    gap: 12px 17px;
-  }
-
-  .nav-links a {
-    font-size: 0.82rem;
-  }
-
   .projects-hero {
     padding: 65px 6% 55px;
   }
@@ -699,15 +630,6 @@ async function toggleProjects() {
 }
 
 @media (max-width: 480px) {
-  .navbar {
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  .nav-links {
-    justify-content: flex-start;
-  }
-
   .section-top {
     align-items: flex-start;
     flex-direction: column;

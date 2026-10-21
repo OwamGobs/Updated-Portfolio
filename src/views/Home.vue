@@ -4,22 +4,6 @@ import profilePhoto from "../assets/profile.jpg";
 
 <template>
   <main id="home" class="hero">
-    <!-- Navigation -->
-    <header class="navbar">
-      <a href="#home" class="logo">
-        <span>Owam</span>
-        <span class="logo-accent">Gobinca_</span>
-      </a>
-
-      <nav class="nav-links">
-        <a href="#home" class="active">Home</a>
-        <RouterLink to="/about">About</RouterLink>
-        <a href="#work">Projects</a>
-        <a href="#contact">Contact</a>
-        <RouterLink to="/certifications">Certifications</RouterLink>
-      </nav>
-    </header>
-
     <!-- Hero content -->
     <section class="hero-content">
       <div class="intro">
@@ -133,55 +117,9 @@ a {
   );
 }
 
-/* Navigation */
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.navbar a,
 .projects-button,
 .social-icon {
   text-decoration: none;
-}
-
-.logo {
-  display: flex;
-  flex-direction: column;
-  color: #000;
-  font-size: 20px;
-  line-height: 0.98;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.logo-accent {
-  color: #d47a1b;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(30px, 5.5vw, 85px);
-}
-
-.nav-links a {
-  color: #f4f4f4;
-  font-size: 16px;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: #a95616;
 }
 
 /* Main hero layout */
@@ -322,6 +260,7 @@ a {
     bottom: auto;
     justify-content: center;
     margin: 20px 0;
+    gap: 25px;
   }
 }
 
@@ -351,9 +290,6 @@ a {
     font-size: clamp(20px, 3vw, 29px);
   }
 
-  .nav-links {
-    gap: 25px;
-  }
 }
 
 /* Mobile phones */
@@ -362,26 +298,6 @@ a {
   .hero {
     min-height: 100svh;
     padding: 22px 6% 35px;
-  }
-
-  .navbar {
-    align-items: flex-start;
-    gap: 18px;
-  }
-
-  .logo {
-    font-size: 17px;
-    flex-shrink: 0;
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 12px 18px;
-  }
-
-  .nav-links a {
-    font-size: 12px;
   }
 
   .hero-content {
