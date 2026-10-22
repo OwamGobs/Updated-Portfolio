@@ -226,9 +226,9 @@ async function toggleProjects() {
           I'm interested in learning, collaborating, and exploring new
           opportunities.
         </p>
-        <RouterLink to="/contact" class="cta-button">
+        <a href="mailto:owamgobingca@gmail.com" class="cta-button">
           Get in touch <span>↗</span>
-        </RouterLink>
+        </a>
       </section>
 
       <footer class="footer">

@@ -1,14 +1,8 @@
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-import Home from './views/Home.vue'
-import About from './views/About.vue'
-import Projects from './views/Projects.vue'
-import Certifications from './views/Certifications.vue'
-
-const activeSection = ref('home')
-
+const route = useRoute()
 const navigation = [
   { id: 'home', label: 'Home', icon: 'bi-house-door' },
   { id: 'about', label: 'About', icon: 'bi-person' },
@@ -16,36 +10,39 @@ const navigation = [
   { id: 'certifications', label: 'Certifications', icon: 'bi-award' },
   { id: 'contact', label: 'Contact', icon: 'bi-envelope' }
 ]
-
-function goToSection(id) {
-  document.getElementById(id)?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  })
-}
-
-function updateActiveSection() {
-  const sections = document.querySelectorAll('.portfolio-section')
-  let current = 'home'
-
-  sections.forEach((section) => {
-    if (section.getBoundingClientRect().top <= window.innerHeight * 0.4) {
-      current = section.id
-    }
-  })
-
-  activeSection.value = current
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', updateActiveSection, { passive: true })
-  updateActiveSection()
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateActiveSection)
-})
 </script>
+
+<template>
+  <div class="portfolio-layout">
+    <aside class="sidebar">
+      <RouterLink class="brand" to="/">
+        Owam<span>.</span>
+      </RouterLink>
+
+      <p class="menu-label">MENU</p>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <RouterLink
+          v-for="item in navigation"
+          :key="item.id"
+          :to="item.id === 'home' ? '/' : `/${item.id}`"
+          class="nav-item"
+          :class="{ active: route.name === item.id }"
+          :aria-label="item.label"
+          :title="item.label"
+        >
+          <i :class="['bi', item.icon]" aria-hidden="true"></i>
+        </RouterLink>
+      </nav>
+
+    </aside>
+
+    <main class="main-content">
+      <RouterView />
+    </main>
+  </div>
+</template>
+
 <style scoped>
 .portfolio-layout {
   min-height: 100vh;
@@ -55,21 +52,23 @@ onUnmounted(() => {
   position: fixed;
   inset: 0 auto 0 0;
   z-index: 1000;
-  width: 245px;
+  width: 88px;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 34px 22px 24px;
+  align-items: center;
+  padding: 28px 12px 20px;
   background: #fff;
   border-right: 1px solid #eee1e6;
 }
 
 .brand {
   color: #272329;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 800;
   text-decoration: none;
   letter-spacing: -1px;
+  white-space: nowrap;
 }
 
 .brand span {
@@ -77,34 +76,30 @@ onUnmounted(() => {
 }
 
 .menu-label {
-  margin: 38px 0 16px 10px;
-  color: #817980;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  display: none;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  margin-top: 36px;
 }
 
 .nav-item {
   display: flex;
+  width: 48px;
+  height: 48px;
   align-items: center;
-  gap: 13px;
-  padding: 13px 12px;
+  justify-content: center;
   border-radius: 9px;
   color: #625b63;
-  font-size: 13px;
-  font-weight: 600;
   text-decoration: none;
   transition: all 0.25s ease;
 }
 
 .nav-item i {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .nav-item:hover,
@@ -114,51 +109,12 @@ onUnmounted(() => {
 }
 
 .nav-item:hover {
-  transform: translateX(3px);
+  transform: translateY(-2px);
 }
 
 .main-content {
   min-width: 0;
-  margin-left: 245px;
-}
-
-.sidebar-bottom {
-  margin-top: auto;
-}
-
-.sidebar-bottom .menu-label {
-  margin-top: 0;
-}
-
-.social-links {
-  display: flex;
-  gap: 10px;
-  padding-left: 10px;
-}
-
-.social-links a {
-  display: flex;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #eee1e6;
-  border-radius: 50%;
-  color: #920039;
-  text-decoration: none;
-  transition: all 0.25s ease;
-}
-
-.social-links a:hover {
-  color: #fff;
-  background: #920039;
-  transform: translateY(-3px);
-}
-
-.copyright {
-  margin: 20px 0 0 10px;
-  color: #817980;
-  font-size: 10px;
+  margin-left: 88px;
 }
 
 @media (max-width: 768px) {
@@ -166,32 +122,32 @@ onUnmounted(() => {
     width: 100%;
     height: auto;
     min-height: 0;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 12px 16px;
     border-right: 0;
     border-bottom: 1px solid #eee1e6;
   }
 
-  .sidebar .menu-label,
-  .sidebar-bottom {
+  .sidebar .menu-label {
     display: none;
   }
 
   .sidebar-nav {
     flex-direction: row;
-    gap: 4px;
-    margin-top: 10px;
+    gap: 6px;
+    margin-top: 0;
     overflow-x: auto;
   }
 
   .nav-item {
     flex: 0 0 auto;
-    gap: 6px;
-    padding: 9px;
-    font-size: 11px;
+    width: 40px;
+    height: 40px;
   }
 
   .nav-item i {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .main-content {
@@ -202,5 +158,27 @@ onUnmounted(() => {
   .portfolio-section {
     scroll-margin-top: 94px;
   }
+}
+
+@media (max-height: 620px) and (min-width: 769px) {
+  .sidebar {
+    overflow-y: auto;
+    padding: 18px 12px 14px;
+  }
+
+  .sidebar-nav {
+    flex-shrink: 0;
+  }
+
+  .sidebar-nav {
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .nav-item {
+    width: 44px;
+    height: 44px;
+  }
+
 }
 </style>

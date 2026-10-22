@@ -102,9 +102,9 @@
           I'm excited to keep learning, collaborate with others, and turn new
           ideas into projects that make a difference.
         </p>
-        <RouterLink to="/contact" class="secondary-button">
+        <a href="mailto:owamgobingca@gmail.com" class="secondary-button">
           Let's connect <span>↗</span>
-        </RouterLink>
+        </a>
       </section>
     </main>
 
