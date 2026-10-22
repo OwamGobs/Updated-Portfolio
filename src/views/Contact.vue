@@ -57,8 +57,13 @@
   display: grid;
   place-items: center;
   padding: 72px clamp(24px, 7vw, 100px);
-  color: #272329;
-  background: #fbf8f9;
+  color: #f5f2f3;
+  background: radial-gradient(
+    ellipse at 38% 48%,
+    #3f3f3f 0%,
+    #696969 54%,
+    #969696 100%
+  );
 }
 
 .contact-content {
@@ -83,13 +88,13 @@ h1 {
 
 h1 span {
   display: block;
-  color: #920039;
+  color: #f47b0b;
 }
 
 .intro {
   max-width: 560px;
   margin: 24px 0 36px;
-  color: #625b63;
+  color: #e6dfe2;
   font-size: 16px;
   line-height: 1.8;
 }
@@ -104,7 +109,7 @@ h1 span {
   align-items: center;
   gap: 16px;
   padding: 20px;
-  border: 1px solid #eee1e6;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   color: #272329;
   background: #fff;
@@ -116,7 +121,7 @@ h1 span {
 
 .contact-option:hover {
   transform: translateY(-2px);
-  border-color: #920039;
+  border-color: #f47b0b;
 }
 
 .contact-option > i {

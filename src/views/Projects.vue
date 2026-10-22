@@ -1,5 +1,6 @@
 <script setup>
 import { computed, nextTick, ref } from "vue";
+import TechStack from "./TechStack.vue";
 
 const projects = ref([
   {
@@ -11,6 +12,28 @@ const projects = ref([
     technologies: ["HTML", "CSS", "JavaScript"],
     image: "",
     liveUrl: "",
+    githubUrl: "",
+  },
+  {
+    title: "Market Pulse",
+    category: "Web Development",
+    year: "2026",
+    description:
+      "A price-monitoring dashboard for retail goods and digital assets, with market snapshots, top movers, source filtering, and a watchlist.",
+    technologies: ["Vue.js", "JavaScript", "Price monitoring"],
+    image: "",
+    liveUrl: "https://market-pulse-11gq.onrender.com/",
+    githubUrl: "",
+  },
+  {
+    title: "ModernTech Solutions HR Dashboard",
+    category: "Web Development",
+    year: "2026",
+    description:
+      "A human resources dashboard for managing employee records, payroll, attendance, time-off requests, and performance reviews in one place.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    image: "",
+    liveUrl: "https://ihtishaamj63-web.github.io/Project-1-ModernTech-Solutions/",
     githubUrl: "",
   },
   {
@@ -38,8 +61,8 @@ const projects = ref([
 ]);
 
 const selectedCategory = ref("All");
-const showProjects = ref(false);
-const projectsSection = ref(null);
+const showTechStack = ref(false);
+const techStackButton = ref(null);
 
 const categories = computed(() => [
   "All",
@@ -54,20 +77,16 @@ const filteredProjects = computed(() => {
   );
 });
 
-async function toggleProjects() {
-  showProjects.value = !showProjects.value;
-
-  if (showProjects.value) {
-    await nextTick();
-    projectsSection.value?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    return;
-  }
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function openTechStack() {
+  showTechStack.value = true;
 }
+
+async function closeTechStack() {
+  showTechStack.value = false;
+  await nextTick();
+  techStackButton.value?.focus({ preventScroll: true });
+}
+
 </script>
 
 <template>
@@ -100,20 +119,19 @@ async function toggleProjects() {
       </div>
 
       <button
+        ref="techStackButton"
         type="button"
-        class="cta-button reveal-button"
-        :aria-expanded="showProjects"
-        :aria-controls="showProjects ? 'project-details' : undefined"
-        @click="toggleProjects"
+        class="tech-stack-link"
+        @click="openTechStack"
       >
-        {{ showProjects ? "Hide projects" : "View projects" }}
-        <span aria-hidden="true">{{ showProjects ? "↑" : "↓" }}</span>
+        <i class="bi bi-code-slash" aria-hidden="true"></i>
+        View My Tech Stack
+        <span aria-hidden="true">↗</span>
       </button>
     </section>
 
-    <template v-if="showProjects">
-      <!-- Filters -->
-      <section id="project-details" ref="projectsSection" class="work-section">
+    <!-- Filters -->
+    <section id="project-details" class="work-section">
         <div class="section-top">
           <div>
             <p class="eyebrow">THE PORTFOLIO</p>
@@ -216,26 +234,29 @@ async function toggleProjects() {
         <p v-if="filteredProjects.length === 0" class="empty-state">
           No projects in this category yet.
         </p>
-      </section>
+    </section>
 
-      <!-- Contact call to action -->
-      <section class="contact-cta">
-        <p class="eyebrow">HAVE A PROJECT IN MIND?</p>
-        <h2>Let's build something <span>great.</span></h2>
-        <p>
-          I'm interested in learning, collaborating, and exploring new
-          opportunities.
-        </p>
-        <a href="mailto:owamgobingca@gmail.com" class="cta-button">
-          Get in touch <span>↗</span>
-        </a>
-      </section>
+    <!-- Contact call to action -->
+    <section class="contact-cta">
+      <p class="eyebrow">HAVE A PROJECT IN MIND?</p>
+      <h2>Let's build something <span>great.</span></h2>
+      <p>
+        I'm interested in learning, collaborating, and exploring new
+        opportunities.
+      </p>
+      <a href="mailto:owamgobingca@gmail.com" class="cta-button">
+        Get in touch <span>↗</span>
+      </a>
+    </section>
 
-      <footer class="footer">
-        <p>© {{ new Date().getFullYear() }} Owam Gobinca</p>
-        <RouterLink to="/">Back to home ↑</RouterLink>
-      </footer>
-    </template>
+    <footer class="footer">
+      <p>© {{ new Date().getFullYear() }} Owam Gobinca</p>
+      <RouterLink to="/">Back to home ↑</RouterLink>
+    </footer>
+
+    <Transition name="tech-stack-overlay">
+      <TechStack v-if="showTechStack" @close="closeTechStack" />
+    </Transition>
   </main>
 </template>
 
@@ -315,6 +336,39 @@ async function toggleProjects() {
   font-size: 0.85rem;
 }
 
+.tech-stack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 173, 102, 0.65);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tech-stack-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #171e21;
+}
+
+.tech-stack-link:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
 .work-section {
   --ink: #f5f2f3;
   --muted: #e6dfe2;
@@ -382,8 +436,8 @@ async function toggleProjects() {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .project-card {
@@ -464,7 +518,7 @@ async function toggleProjects() {
 }
 
 .project-info {
-  padding: 27px;
+  padding: 20px;
 }
 
 .project-meta {
@@ -475,30 +529,30 @@ async function toggleProjects() {
 
 .project-info h3 {
   margin: 12px 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   letter-spacing: -0.04em;
 }
 
 .project-description {
-  min-height: 78px;
+  min-height: 90px;
   color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.8;
+  font-size: 0.86rem;
+  line-height: 1.65;
 }
 
 .technology-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin: 20px 0;
+  gap: 6px;
+  margin: 16px 0;
 }
 
 .technology-list span {
-  padding: 7px 10px;
+  padding: 6px 8px;
   border-radius: 5px;
   background: #f3edf0;
   color: #5f3346;
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   font-weight: 600;
 }
 
@@ -578,13 +632,6 @@ async function toggleProjects() {
   background: #ff922b;
 }
 
-.reveal-button {
-  border: 0;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 1rem;
-}
-
 .footer {
   display: flex;
   justify-content: space-between;
@@ -626,6 +673,12 @@ async function toggleProjects() {
 
   .project-description {
     min-height: auto;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

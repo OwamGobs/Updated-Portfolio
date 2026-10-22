@@ -76,36 +76,9 @@
             <span class="decorative-dot dot-two"></span>
           </div>
 
-          <p class="intro about-continuation">
-            I’m currently developing my skills at Life Choices Academy, where
-            I’ve been building a foundation in web development and programming.
-            Through hands-on projects, I’ve gained experience with HTML, CSS,
-            JavaScript, and Python, while also learning to use Git and GitHub to
-            manage and collaborate on projects. I enjoy turning ideas into
-            functional, user-friendly websites and exploring new technologies
-            that challenge me to grow. Working on individual and team projects
-            has helped me strengthen my problem-solving skills, adapt to
-            challenges, and understand the importance of collaboration in
-            software development.
-          </p>
         </div>
       </section>
 
-      <!-- Personal statement -->
-      <section class="closing-section">
-        <p class="eyebrow">LOOKING AHEAD</p>
-        <h2>
-          I'm just getting started.
-          <span>There's more to build.</span>
-        </h2>
-        <p>
-          I'm excited to keep learning, collaborate with others, and turn new
-          ideas into projects that make a difference.
-        </p>
-        <a href="mailto:owamgobingca@gmail.com" class="secondary-button">
-          Let's connect <span>↗</span>
-        </a>
-      </section>
     </main>
 
     <!-- Footer -->

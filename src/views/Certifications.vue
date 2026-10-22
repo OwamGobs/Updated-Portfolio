@@ -1,27 +1,44 @@
 <script setup>
+import cybersecurityCertificate from "../assets/introduction-to-cybersecurity-certificate.png";
+import dataScienceCertificate from "../assets/introduction-to-data-science-certificate.png";
+import youthCodeCertificate from "../assets/youthcode-certificate.png";
+
 const credentialGroups = [
   {
     title: "Certificates",
     items: [
       {
-        title: "Certificate 1",
+        title: "YouthCode Project Certificate of Achievement",
         type: "Certificate",
-        issuer: "Issuing organisation",
-        date: "Year completed",
-        category: "Certificate",
-        description: "Add a short description of this certificate.",
+        issuer: "Life Choices Academy",
+        date: "2 October 2026",
+        category: "Software Development",
+        description:
+          "Awarded for completing the YouthCode software development project, covering ICT, front-end development, database and back-end development, e-commerce, and personal and professional development.",
         credentialUrl: "",
-        image: "",
+        image: youthCodeCertificate,
       },
       {
-        title: "Certificate 2",
+        title: "Introduction to Cybersecurity",
         type: "Certificate",
-        issuer: "Issuing organisation",
-        date: "Year completed",
-        category: "Certificate",
-        description: "Add a short description of this certificate.",
+        issuer: "Cisco Networking Academy",
+        date: "31 August 2026",
+        category: "Cybersecurity",
+        description:
+          "Completed the Introduction to Cybersecurity course, covering online safety, common cyber threats and vulnerabilities, protection strategies, and cybersecurity career pathways.",
         credentialUrl: "",
-        image: "",
+        image: cybersecurityCertificate,
+      },
+      {
+        title: "Introduction to Data Science",
+        type: "Certificate",
+        issuer: "Life Choices Academy / Cisco Networking Academy",
+        date: "31 August 2026",
+        category: "Data Science",
+        description:
+          "Completed the Introduction to Data Science course through the Cisco Networking Academy program at Life Choices Academy.",
+        credentialUrl: "",
+        image: dataScienceCertificate,
       },
     ],
   },
@@ -29,14 +46,17 @@ const credentialGroups = [
     title: "Badges",
     items: [
       {
-        title: "Badge 1",
+        title: "Introduction to Cybersecurity",
         type: "Badge",
-        issuer: "Issuing organisation",
-        date: "Year earned",
-        category: "Badge",
-        description: "Add a short description of this badge.",
-        credentialUrl: "",
-        image: "",
+        issuer: "Cisco",
+        date: "31 August 2026",
+        category: "Cybersecurity",
+        description:
+          "Earned for completing Cisco's Introduction to Cybersecurity course, covering cyber threats, online safety, and cybersecurity careers.",
+        credentialUrl:
+          "https://www.credly.com/badges/8b2c3069-aff3-4ce7-9fc5-81364e75a693/public_url",
+        image:
+          "https://images.credly.com/size/680x680/images/af8c6b4e-fc31-47c4-8dcb-eb7a2065dc5b/I2CS__1_.png",
       },
       {
         title: "Badge 2",
@@ -102,7 +122,10 @@ const credentialCount = credentialGroups.reduce(
             class="cert-card"
             :style="{ '--delay': `${(groupIndex * 2 + index) * 100}ms` }"
           >
-            <div class="cert-visual">
+            <div
+              class="cert-visual"
+              :class="{ 'has-certificate-image': cert.image }"
+            >
               <img
                 v-if="cert.image"
                 :src="cert.image"
@@ -275,7 +298,7 @@ const credentialCount = credentialGroups.reduce(
 
 .cert-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
 }
 
@@ -323,6 +346,14 @@ const credentialCount = credentialGroups.reduce(
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
+}
+
+.cert-visual.has-certificate-image {
+  aspect-ratio: 4 / 5;
+}
+
+.cert-visual.has-certificate-image img {
+  object-fit: contain;
 }
 
 .cert-card:hover .cert-visual img {
@@ -510,6 +541,12 @@ const credentialCount = credentialGroups.reduce(
 
   .cert-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+  .cert-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

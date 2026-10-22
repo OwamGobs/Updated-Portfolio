@@ -17,10 +17,16 @@ import profilePhoto from "../assets/profile.jpg";
 
         <p class="subtitle">An aspiring software developer</p>
 
-        <RouterLink to="/projects" class="projects-button">
-          View my projects
-          <span aria-hidden="true">→</span>
-        </RouterLink>
+        <div class="hero-actions">
+          <RouterLink to="/projects" class="projects-button">
+            View my projects
+            <span aria-hidden="true">→</span>
+          </RouterLink>
+          <RouterLink to="/about" class="projects-button about-button">
+            More about me
+            <span aria-hidden="true">↗</span>
+          </RouterLink>
+        </div>
       </div>
 
       <!-- Profile photo -->
@@ -175,6 +181,13 @@ a {
 
 /* Projects button */
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
 .projects-button {
   display: inline-flex;
   align-items: center;
@@ -182,6 +195,7 @@ a {
   gap: 12px;
   min-height: 56px;
   padding: 15px 20px;
+  border: 1px solid #f47b0b;
   border-radius: 17px;
   background: #f47b0b;
   color: #171e21;
@@ -189,7 +203,13 @@ a {
   font-weight: 500;
   transition:
     transform 0.25s ease,
-    background 0.25s ease box-shadow 0.25s ease;
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.about-button {
+  background: #f47b0b;
 }
 
 .projects-button span {
@@ -198,8 +218,15 @@ a {
 }
 
 .projects-button:hover {
-  background: #ff922b;
-  transform: translateY(-3px);
+  border-color: #c85e00;
+  background: #f47b0b;
+  color: #fff;
+  box-shadow: 0 3px 0 #a94f00;
+}
+
+.projects-button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
 }
 
 /* Profile image */

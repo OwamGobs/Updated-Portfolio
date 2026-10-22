@@ -1,15 +1,77 @@
-
 <script setup>
-import { useRoute } from 'vue-router'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import About from './views/About.vue'
+import Certifications from './views/Certifications.vue'
+import Contact from './views/Contact.vue'
+import Home from './views/Home.vue'
+import Projects from './views/Projects.vue'
 
 const route = useRoute()
+const router = useRouter()
+const activeSection = ref(String(route.name || 'home'))
+let sectionObserver
+
 const navigation = [
-  { id: 'home', label: 'Home', icon: 'bi-house-door' },
-  { id: 'about', label: 'About', icon: 'bi-person' },
-  { id: 'projects', label: 'Projects', icon: 'bi-folder2-open' },
-  { id: 'certifications', label: 'Certifications', icon: 'bi-award' },
-  { id: 'contact', label: 'Contact', icon: 'bi-envelope' }
+  { id: 'home', label: 'Home', icon: 'bi-house-door', component: Home },
+  { id: 'about', label: 'About', icon: 'bi-person', component: About },
+  { id: 'projects', label: 'Projects', icon: 'bi-folder2-open', component: Projects },
+  {
+    id: 'certifications',
+    label: 'Certifications',
+    icon: 'bi-award',
+    component: Certifications,
+  },
+  { id: 'contact', label: 'Contact', icon: 'bi-envelope', component: Contact },
 ]
+
+function scrollToSection(id, behavior = 'smooth') {
+  document.getElementById(id)?.scrollIntoView({ behavior, block: 'start' })
+}
+
+watch(
+  () => route.name,
+  (name) => {
+    const id = String(name || 'home')
+    if (activeSection.value === id) return
+
+    activeSection.value = id
+    scrollToSection(id)
+  },
+)
+
+onMounted(async () => {
+  await nextTick()
+  scrollToSection(activeSection.value, 'auto')
+
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      const visibleSection = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+      if (!visibleSection) return
+
+      const id = visibleSection.target.id
+      if (activeSection.value === id) return
+
+      activeSection.value = id
+      if (route.name !== id) {
+        router.replace({ name: id })
+      }
+    },
+    { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
+  )
+
+  navigation.forEach(({ id }) => {
+    const section = document.getElementById(id)
+    if (section) sectionObserver.observe(section)
+  })
+})
+
+onBeforeUnmount(() => {
+  sectionObserver?.disconnect()
+})
 </script>
 
 <template>
@@ -27,18 +89,26 @@ const navigation = [
           :key="item.id"
           :to="item.id === 'home' ? '/' : `/${item.id}`"
           class="nav-item"
-          :class="{ active: route.name === item.id }"
+          :class="{ active: activeSection === item.id }"
           :aria-label="item.label"
+          :aria-current="activeSection === item.id ? 'page' : undefined"
           :title="item.label"
         >
           <i :class="['bi', item.icon]" aria-hidden="true"></i>
         </RouterLink>
       </nav>
-
     </aside>
 
     <main class="main-content">
-      <RouterView />
+      <section
+        v-for="item in navigation"
+        :id="item.id"
+        :key="item.id"
+        class="portfolio-section"
+        :aria-label="item.label"
+      >
+        <component :is="item.component" />
+      </section>
     </main>
   </div>
 </template>
@@ -117,33 +187,35 @@ const navigation = [
   margin-left: 88px;
 }
 
+.portfolio-section {
+  min-height: 100vh;
+  scroll-margin-top: 0;
+}
+
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-right: 0;
-    border-bottom: 1px solid #eee1e6;
+    inset: 0 auto 0 0;
+    width: 68px;
+    height: 100vh;
+    padding: 20px 8px;
+    border-right: 1px solid #eee1e6;
+    border-bottom: 0;
   }
 
-  .sidebar .menu-label {
-    display: none;
+  .brand {
+    font-size: 15px;
   }
 
   .sidebar-nav {
-    flex-direction: row;
-    gap: 6px;
-    margin-top: 0;
-    overflow-x: auto;
+    gap: 8px;
+    margin-top: 28px;
+    overflow-y: auto;
   }
 
   .nav-item {
     flex: 0 0 auto;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .nav-item i {
@@ -151,12 +223,12 @@ const navigation = [
   }
 
   .main-content {
-    margin-left: 0;
-    padding-top: 94px;
+    margin-left: 68px;
   }
 
   .portfolio-section {
-    scroll-margin-top: 94px;
+    min-height: 100vh;
+    scroll-margin-top: 0;
   }
 }
 
@@ -168,9 +240,6 @@ const navigation = [
 
   .sidebar-nav {
     flex-shrink: 0;
-  }
-
-  .sidebar-nav {
     gap: 8px;
     margin-top: 24px;
   }
@@ -179,6 +248,5 @@ const navigation = [
     width: 44px;
     height: 44px;
   }
-
 }
 </style>
