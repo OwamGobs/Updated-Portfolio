@@ -58,24 +58,11 @@ const credentialGroups = [
         image:
           "https://images.credly.com/size/680x680/images/af8c6b4e-fc31-47c4-8dcb-eb7a2065dc5b/I2CS__1_.png",
       },
-      {
-        title: "Badge 2",
-        type: "Badge",
-        issuer: "Issuing organisation",
-        date: "Year earned",
-        category: "Badge",
-        description: "Add a short description of this badge.",
-        credentialUrl: "",
-        image: "",
-      },
     ],
   },
 ];
 
-const credentialCount = credentialGroups.reduce(
-  (total, group) => total + group.items.length,
-  0,
-);
+const credentialCount = credentialGroups.reduce((total, group) => total + group.items.length, 0);
 </script>
 
 <template>
@@ -90,8 +77,8 @@ const credentialCount = credentialGroups.reduce(
       </h1>
 
       <p class="hero-description">
-        Every certification represents a step forward in my development journey.
-        Explore the courses, knowledge, and skills I'm building along the way.
+        Every certification represents a step forward in my development journey. Explore the
+        courses, knowledge, and skills I'm building along the way.
       </p>
 
       <div class="hero-decoration" aria-hidden="true">✦</div>
@@ -122,10 +109,7 @@ const credentialCount = credentialGroups.reduce(
             class="cert-card"
             :style="{ '--delay': `${(groupIndex * 2 + index) * 100}ms` }"
           >
-            <div
-              class="cert-visual"
-              :class="{ 'has-certificate-image': cert.image }"
-            >
+            <div class="cert-visual" :class="{ 'has-certificate-image': cert.image }">
               <img
                 v-if="cert.image"
                 :src="cert.image"
@@ -161,9 +145,7 @@ const credentialCount = credentialGroups.reduce(
                   View credential ↗
                 </a>
 
-                <span v-else class="pending-link">
-                  Credential details to be added
-                </span>
+                <span v-else class="pending-link"> Credential details to be added </span>
               </div>
             </div>
           </article>
@@ -179,8 +161,8 @@ const credentialCount = credentialGroups.reduce(
         <span>stop here.</span>
       </h2>
       <p>
-        I'm committed to continuously improving my skills, exploring new
-        technologies, and applying what I learn to real projects.
+        I'm committed to continuously improving my skills, exploring new technologies, and applying
+        what I learn to real projects.
       </p>
       <RouterLink to="/projects" class="cta-button">
         Explore my projects <span>→</span>
@@ -205,12 +187,7 @@ const credentialCount = credentialGroups.reduce(
 
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(
-    ellipse at 38% 48%,
-    #3f3f3f 0%,
-    #696969 54%,
-    #969696 100%
-  );
+  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
   font-family: Inter, Arial, sans-serif;
 }
 

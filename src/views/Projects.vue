@@ -1,19 +1,12 @@
 <script setup>
 import { computed, nextTick, ref } from "vue";
 import TechStack from "./TechStack.vue";
+import marketPulseImage from "../assets/WebScraping.png";
+import modernTechImage from "../assets/ModernTechSolutions.png";
+import eventPlanningImage from "../assets/EventPlanning.png";
+import applyDirectImage from "../assets/ApplyDirectSA.png";
 
 const projects = ref([
-  {
-    title: "E-Commerce Website",
-    category: "Web Development",
-    year: "2026",
-    description:
-      "A responsive e-commerce website focused on a clean shopping experience, attractive product presentation, and intuitive navigation.",
-    technologies: ["HTML", "CSS", "JavaScript"],
-    image: "",
-    liveUrl: "",
-    githubUrl: "",
-  },
   {
     title: "Market Pulse",
     category: "Web Development",
@@ -21,7 +14,7 @@ const projects = ref([
     description:
       "A price-monitoring dashboard for retail goods and digital assets, with market snapshots, top movers, source filtering, and a watchlist.",
     technologies: ["Vue.js", "JavaScript", "Price monitoring"],
-    image: "",
+    image: marketPulseImage,
     liveUrl: "https://market-pulse-11gq.onrender.com/",
     githubUrl: "",
   },
@@ -32,19 +25,19 @@ const projects = ref([
     description:
       "A human resources dashboard for managing employee records, payroll, attendance, time-off requests, and performance reviews in one place.",
     technologies: ["HTML", "CSS", "JavaScript"],
-    image: "",
+    image: modernTechImage,
     liveUrl: "https://ihtishaamj63-web.github.io/Project-1-ModernTech-Solutions/",
     githubUrl: "",
   },
   {
-    title: "Personal Portfolio",
+    title: "Event Planning Service",
     category: "Web Development",
     year: "2026",
     description:
-      "A personal portfolio showcasing my development journey, skills, and projects through a responsive interface built with Vue.",
-    technologies: ["Vue.js", "JavaScript", "CSS", "Vite"],
-    image: "",
-    liveUrl: "",
+      "A website for an event planning service, presenting event offerings and helping visitors explore planning options.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    image: eventPlanningImage,
+    liveUrl: "https://newmi-git.github.io/Event-Planning-Service/",
     githubUrl: "",
   },
   {
@@ -54,7 +47,7 @@ const projects = ref([
     description:
       "A student-focused application project designed to support the application process, with profile management and contact functionality.",
     technologies: ["Vue.js", "Node.js", "Express", "MySQL"],
-    image: "",
+    image: applyDirectImage,
     liveUrl: "https://api-production-275b.up.railway.app/",
     githubUrl: "",
   },
@@ -72,9 +65,7 @@ const categories = computed(() => [
 const filteredProjects = computed(() => {
   if (selectedCategory.value === "All") return projects.value;
 
-  return projects.value.filter(
-    (project) => project.category === selectedCategory.value,
-  );
+  return projects.value.filter((project) => project.category === selectedCategory.value);
 });
 
 function openTechStack() {
@@ -86,7 +77,6 @@ async function closeTechStack() {
   await nextTick();
   techStackButton.value?.focus({ preventScroll: true });
 }
-
 </script>
 
 <template>
@@ -101,8 +91,8 @@ async function closeTechStack() {
       </h1>
 
       <p class="hero-description">
-        Every project is an opportunity to learn, experiment, and build
-        something meaningful. Explore what I've been working on.
+        Every project is an opportunity to learn, experiment, and build something meaningful.
+        Explore what I've been working on.
       </p>
 
       <div class="project-stats">
@@ -111,19 +101,12 @@ async function closeTechStack() {
           <span>Projects showcased</span>
         </div>
         <div>
-          <strong>{{
-            new Set(projects.flatMap((p) => p.technologies)).size
-          }}</strong>
+          <strong>{{ new Set(projects.flatMap((p) => p.technologies)).size }}</strong>
           <span>Technologies explored</span>
         </div>
       </div>
 
-      <button
-        ref="techStackButton"
-        type="button"
-        class="tech-stack-link"
-        @click="openTechStack"
-      >
+      <button ref="techStackButton" type="button" class="tech-stack-link" @click="openTechStack">
         <i class="bi bi-code-slash" aria-hidden="true"></i>
         View My Tech Stack
         <span aria-hidden="true">↗</span>
@@ -132,127 +115,105 @@ async function closeTechStack() {
 
     <!-- Filters -->
     <section id="project-details" class="work-section">
-        <div class="section-top">
-          <div>
-            <p class="eyebrow">THE PORTFOLIO</p>
-            <h2>Things I've built<span>.</span></h2>
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">THE PORTFOLIO</p>
+          <h2>Things I've built<span>.</span></h2>
+        </div>
+
+        <p class="results-count">
+          {{ filteredProjects.length }}
+          {{ filteredProjects.length === 1 ? "project" : "projects" }}
+        </p>
+      </div>
+
+      <div class="filters" aria-label="Filter projects by category">
+        <button
+          v-for="category in categories"
+          :key="category"
+          type="button"
+          :class="{ selected: selectedCategory === category }"
+          :aria-pressed="selectedCategory === category"
+          @click="selectedCategory = category"
+        >
+          {{ category }}
+        </button>
+      </div>
+
+      <!-- Project cards -->
+      <div class="projects-grid">
+        <article
+          v-for="(project, index) in filteredProjects"
+          :key="project.title"
+          class="project-card"
+          :style="{ '--card-index': index }"
+        >
+          <div class="project-image">
+            <img
+              v-if="project.image"
+              :src="project.image"
+              :alt="project.title + ' project preview'"
+              loading="lazy"
+            />
+
+            <div v-else class="image-placeholder">
+              <span class="placeholder-symbol">&lt;/&gt;</span>
+              <span>{{ project.title }}</span>
+              <small>PROJECT PREVIEW</small>
+            </div>
+
+            <span class="project-year">{{ project.year }}</span>
           </div>
 
-          <p class="results-count">
-            {{ filteredProjects.length }}
-            {{ filteredProjects.length === 1 ? "project" : "projects" }}
-          </p>
-        </div>
-
-        <div class="filters" aria-label="Filter projects by category">
-          <button
-            v-for="category in categories"
-            :key="category"
-            type="button"
-            :class="{ selected: selectedCategory === category }"
-            :aria-pressed="selectedCategory === category"
-            @click="selectedCategory = category"
-          >
-            {{ category }}
-          </button>
-        </div>
-
-        <!-- Project cards -->
-        <div class="projects-grid">
-          <article
-            v-for="(project, index) in filteredProjects"
-            :key="project.title"
-            class="project-card"
-            :style="{ '--card-index': index }"
-          >
-            <div class="project-image">
-              <img
-                v-if="project.image"
-                :src="project.image"
-                :alt="project.title + ' project preview'"
-                loading="lazy"
-              />
-
-              <div v-else class="image-placeholder">
-                <span class="placeholder-symbol">&lt;/&gt;</span>
-                <span>{{ project.title }}</span>
-                <small>PROJECT PREVIEW</small>
-              </div>
-
-              <span class="project-year">{{ project.year }}</span>
+          <div class="project-info">
+            <div class="project-meta">
+              <span>{{ project.category }}</span>
             </div>
 
-            <div class="project-info">
-              <div class="project-meta">
-                <span>{{ project.category }}</span>
-              </div>
+            <h3>{{ project.title }}</h3>
+            <p class="project-description">{{ project.description }}</p>
 
-              <h3>{{ project.title }}</h3>
-              <p class="project-description">{{ project.description }}</p>
-
-              <div class="technology-list">
-                <span
-                  v-for="technology in project.technologies"
-                  :key="technology"
-                >
-                  {{ technology }}
-                </span>
-              </div>
-
-              <div class="project-actions">
-                <a
-                  v-if="project.liveUrl"
-                  :href="project.liveUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link primary-link"
-                >
-                  View live project <span>↗</span>
-                </a>
-
-                <a
-                  v-if="project.githubUrl"
-                  :href="project.githubUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link"
-                >
-                  GitHub <span>↗</span>
-                </a>
-
-                <span
-                  v-if="!project.liveUrl && !project.githubUrl"
-                  class="coming-soon"
-                >
-                  Links coming soon
-                </span>
-              </div>
+            <div class="technology-list">
+              <span v-for="technology in project.technologies" :key="technology">
+                {{ technology }}
+              </span>
             </div>
-          </article>
-        </div>
 
-        <p v-if="filteredProjects.length === 0" class="empty-state">
-          No projects in this category yet.
-        </p>
-    </section>
+            <div class="project-actions">
+              <a
+                v-if="project.liveUrl"
+                :href="project.liveUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link primary-link"
+              >
+                View live project <span>↗</span>
+              </a>
 
-    <!-- Contact call to action -->
-    <section class="contact-cta">
-      <p class="eyebrow">HAVE A PROJECT IN MIND?</p>
-      <h2>Let's build something <span>great.</span></h2>
-      <p>
-        I'm interested in learning, collaborating, and exploring new
-        opportunities.
+              <a
+                v-if="project.githubUrl"
+                :href="project.githubUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link"
+              >
+                GitHub <span>↗</span>
+              </a>
+
+              <span v-if="!project.liveUrl && !project.githubUrl" class="coming-soon">
+                Links coming soon
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p v-if="filteredProjects.length === 0" class="empty-state">
+        No projects in this category yet.
       </p>
-      <a href="mailto:owamgobingca@gmail.com" class="cta-button">
-        Get in touch <span>↗</span>
-      </a>
     </section>
 
-    <footer class="footer">
-      <p>© {{ new Date().getFullYear() }} Owam Gobinca</p>
-      <RouterLink to="/">Back to home ↑</RouterLink>
-    </footer>
+
 
     <Transition name="tech-stack-overlay">
       <TechStack v-if="showTechStack" @close="closeTechStack" />
@@ -268,12 +229,7 @@ async function closeTechStack() {
   --muted: #e6dfe2;
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(
-    ellipse at 38% 48%,
-    #3f3f3f 0%,
-    #696969 54%,
-    #969696 100%
-  );
+  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
   font-family: Inter, Arial, sans-serif;
 }
 

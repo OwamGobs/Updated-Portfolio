@@ -101,9 +101,9 @@
   color: var(--text);
   background: radial-gradient(
     ellipse at 38% 48%,
-    #3f3f3f 0%,
-    #696969 54%,
-    #969696 100%
+    #343434 0%,
+    #5d5d5d 54%,
+    #858585 100%
   );
   font-family: Arial, Helvetica, sans-serif;
 }

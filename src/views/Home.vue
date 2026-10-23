@@ -81,7 +81,7 @@ import profilePhoto from "../assets/profile.jpg";
 :root {
   font-family: "Inter", sans-serif;
   color: #171e21;
-  background: #e8e4e5;
+  background: #d7d4d5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -117,9 +117,9 @@ a {
   color: #f4f4f4;
   background: radial-gradient(
     ellipse at 38% 48%,
-    #3f3f3f 0%,
-    #696969 54%,
-    #969696 100%
+    #343434 0%,
+    #5d5d5d 54%,
+    #858585 100%
   );
 }
 

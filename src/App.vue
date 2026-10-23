@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   align-items: center;
   padding: 28px 12px 20px;
-  background: #fff;
+  background: #e2e2e2;
   border-right: 1px solid #eee1e6;
 }
 

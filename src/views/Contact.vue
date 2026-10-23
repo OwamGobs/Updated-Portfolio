@@ -37,14 +37,6 @@ function submitForm() {
       </p>
 
       <div class="contact-options">
-        <a class="contact-option" href="mailto:owamgobingca@gmail.com">
-          <i class="bi bi-envelope" aria-hidden="true"></i>
-          <span>
-            <strong>Email</strong>
-            <small>owamgobingca@gmail.com</small>
-          </span>
-          <span class="arrow" aria-hidden="true">↗</span>
-        </a>
         <a
           class="contact-option"
           href="https://www.linkedin.com/in/owam-gobingca-08650b324/"
@@ -150,7 +142,7 @@ function submitForm() {
   gap: clamp(32px, 6vw, 80px);
   padding: 72px clamp(24px, 7vw, 100px);
   color: #f5f2f3;
-  background: radial-gradient(ellipse at 38% 48%, #3f3f3f 0%, #696969 54%, #969696 100%);
+  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
 }
 
 .contact-content {
@@ -301,14 +293,19 @@ h1 span {
   padding: 15px;
   border: none;
   border-radius: 9px;
-  background: #920039;
-  color: white;
+  background: #f47b0b;
+  color: #fff;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.send-button span {
+  color: #fff;
 }
 
 .send-button:hover {
-  background: #73002d;
+  background: #d96500;
 }
 
 .send-button:disabled {
