@@ -1,3 +1,28 @@
+<script setup>
+import { ref } from "vue";
+
+const form = ref({
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+});
+const statusMessage = ref("");
+
+function submitForm() {
+  const body = [
+    `Name: ${form.value.name}`,
+    `Email: ${form.value.email}`,
+    "",
+    form.value.message,
+  ].join("\n");
+  const mailtoUrl = `mailto:owamgobingca@gmail.com?subject=${encodeURIComponent(form.value.subject)}&body=${encodeURIComponent(body)}`;
+
+  statusMessage.value = "Opening your email app with the message ready to send.";
+  window.location.href = mailtoUrl;
+}
+</script>
+
 <template>
   <main class="contact-page">
     <section class="contact-content">
@@ -7,8 +32,8 @@
         <span>Let's talk.</span>
       </h1>
       <p class="intro">
-        I’m open to conversations about projects, collaboration, and
-        opportunities. Choose a way to get in touch.
+        I’m open to conversations about projects, collaboration, and opportunities. Choose a way to
+        get in touch.
       </p>
 
       <div class="contact-options">
@@ -48,6 +73,71 @@
         </a>
       </div>
     </section>
+
+    <section class="message-section">
+      <p class="eyebrow">SEND A MESSAGE</p>
+      <h2>Let's start a conversation.</h2>
+      <p class="form-intro">Have a project or opportunity in mind? Send me a message.</p>
+
+      <form @submit.prevent="submitForm">
+        <div class="field">
+          <label for="contact-name">Full Name</label>
+          <input
+            id="contact-name"
+            v-model.trim="form.name"
+            name="name"
+            type="text"
+            placeholder="Your full name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-email">Email Address</label>
+          <input
+            id="contact-email"
+            v-model.trim="form.email"
+            name="email"
+            type="email"
+            placeholder="Your email address"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-subject">Subject</label>
+          <input
+            id="contact-subject"
+            v-model.trim="form.subject"
+            name="subject"
+            type="text"
+            placeholder="What is this regarding?"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            v-model.trim="form.message"
+            name="message"
+            rows="5"
+            placeholder="Write your message here..."
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="send-button">
+          Send Message
+          <span aria-hidden="true">↗</span>
+        </button>
+
+        <p v-if="statusMessage" class="success" role="status">
+          {{ statusMessage }}
+        </p>
+      </form>
+    </section>
   </main>
 </template>
 
@@ -55,15 +145,12 @@
 .contact-page {
   min-height: 100vh;
   display: grid;
-  place-items: center;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(32px, 6vw, 80px);
   padding: 72px clamp(24px, 7vw, 100px);
   color: #f5f2f3;
-  background: radial-gradient(
-    ellipse at 38% 48%,
-    #3f3f3f 0%,
-    #696969 54%,
-    #969696 100%
-  );
+  background: radial-gradient(ellipse at 38% 48%, #3f3f3f 0%, #696969 54%, #969696 100%);
 }
 
 .contact-content {
@@ -149,8 +236,106 @@ h1 span {
   font-size: 20px;
 }
 
+/* Contact form */
+.message-section {
+  width: 100%;
+}
+
+.message-section h2 {
+  margin: 0 0 12px;
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 800;
+  color: #f5f2f3;
+}
+
+.form-intro {
+  margin-bottom: 24px;
+  color: #e6dfe2;
+  line-height: 1.7;
+}
+
+.message-section form {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field label {
+  color: #f5f2f3;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9px;
+  background: #fff;
+  color: #272329;
+  font: inherit;
+  font-size: 14px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 2px solid #f47b0b;
+  outline-offset: 2px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.send-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 9px;
+  background: #920039;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background: #73002d;
+}
+
+.send-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.success,
+.error {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.success {
+  color: #d8ffe5;
+  background: #185c3b;
+}
+
+.error {
+  color: #ffe1e1;
+  background: #792a35;
+}
+
 @media (max-width: 768px) {
   .contact-page {
+    grid-template-columns: 1fr;
     min-height: calc(100vh - 94px);
     padding: 52px 24px;
   }
