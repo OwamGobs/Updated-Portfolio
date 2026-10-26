@@ -56,7 +56,7 @@ onMounted(async () => {
       if (activeSection.value === id) return
 
       activeSection.value = id
-      if (route.name !== id) {
+      if (route.name !== 'not-found' && route.name !== id) {
         router.replace({ name: id })
       }
     },
@@ -163,7 +163,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   border-radius: 9px;
-  color: #625b63;
+  color: #f47b0b;
   text-decoration: none;
   transition: all 0.25s ease;
 }
@@ -174,8 +174,8 @@ onBeforeUnmount(() => {
 
 .nav-item:hover,
 .nav-item.active {
-  color: #920039;
-  background: #f8eaf0;
+  color: #f47b0b;
+  background: #fff0df;
 }
 
 .nav-item:hover {

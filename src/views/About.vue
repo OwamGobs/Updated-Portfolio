@@ -50,9 +50,6 @@
               that are useful, accessible, and enjoyable to use.
             </p>
 
-            <RouterLink to="/projects" class="primary-button">
-              Explore my work <span>↗</span>
-            </RouterLink>
           </div>
 
           <div class="about-visual">

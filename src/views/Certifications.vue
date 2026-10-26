@@ -153,28 +153,6 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
       </section>
     </section>
 
-    <!-- Closing section -->
-    <section class="learning-section">
-      <p class="eyebrow">ALWAYS GROWING</p>
-      <h2>
-        My learning doesn't
-        <span>stop here.</span>
-      </h2>
-      <p>
-        I'm committed to continuously improving my skills, exploring new technologies, and applying
-        what I learn to real projects.
-      </p>
-      <RouterLink to="/projects" class="cta-button">
-        Explore my projects <span>→</span>
-      </RouterLink>
-    </section>
-
-    <footer class="footer">
-      <p>© {{ new Date().getFullYear() }} Owam Gobinca</p>
-      <RouterLink to="/">Back to home ↑</RouterLink>
-    </footer>
-
-    <div class="bottom-strip"></div>
   </main>
 </template>
 
@@ -482,11 +460,6 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
 .footer a {
   color: #ffad66;
   text-decoration: none;
-}
-
-.bottom-strip {
-  height: 9px;
-  background: var(--burgundy);
 }
 
 @keyframes rise-in {
