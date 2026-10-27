@@ -276,6 +276,7 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
   gap: 12px;
   min-height: 56px;
   padding: 15px 20px;
