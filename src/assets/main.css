@@ -10,6 +10,13 @@ body {
   margin: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
 #app {
   min-height: 100vh;
 }

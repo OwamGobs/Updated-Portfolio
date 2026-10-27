@@ -404,17 +404,13 @@ async function closeTechStack() {
   border-radius: 13px;
   background: white;
   color: var(--ink);
-  box-shadow: 0 7px 25px rgba(45, 25, 35, 0.04);
   animation: reveal 0.65s ease-out both;
   animation-delay: calc(var(--card-index) * 100ms);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .project-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(45, 25, 35, 0.12);
 }
 
 .project-image {

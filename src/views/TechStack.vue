@@ -374,7 +374,6 @@ onBeforeUnmount(() => {
   border-radius: 13px;
   background: #fff;
   color: #272329;
-  box-shadow: 0 8px 26px rgba(24, 13, 20, 0.12);
 }
 
 .technology-title {

@@ -88,7 +88,7 @@
 
 <style scoped>
 .about-page {
-  --orange: #e87535;
+  --orange: #f47b0b;
   --burgundy: #651b32;
   --text: #f5f2f3;
   --muted: #e6dfe2;
@@ -102,7 +102,7 @@
     #5d5d5d 54%,
     #858585 100%
   );
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .about-hero {
@@ -148,7 +148,7 @@
 }
 
 .about-content h2 span {
-  color: var(--burgundy);
+  color: var(--orange);
 }
 
 .intro {
@@ -157,7 +157,6 @@
   font-size: 1rem;
   line-height: 1.9;
   margin: 0 0 17px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 .primary-button,
@@ -202,7 +201,6 @@
   border: 2px solid rgba(101, 27, 50, 0.18);
   border-radius: 48% 48% 12px 12px;
   background: rgba(255, 255, 255, 0.5);
-  box-shadow: 18px 18px 0 rgba(101, 27, 50, 0.08);
 }
 
 .profile-image {
@@ -226,7 +224,6 @@
   padding: 17px 20px;
   border-radius: 8px;
   background: var(--surface);
-  box-shadow: 0 12px 35px rgba(35, 22, 35, 0.12);
 }
 
 .note-icon {

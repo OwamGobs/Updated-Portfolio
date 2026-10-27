@@ -273,17 +273,13 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
   border-radius: 13px;
   background: white;
   color: var(--ink);
-  box-shadow: 0 7px 25px rgba(45, 25, 35, 0.04);
   animation: rise-in 0.6s ease-out both;
   animation-delay: var(--delay);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .cert-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 18px 40px rgba(45, 25, 35, 0.11);
 }
 
 .cert-visual {
