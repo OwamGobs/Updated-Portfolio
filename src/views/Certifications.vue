@@ -142,10 +142,9 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
                   rel="noopener noreferrer"
                   class="credential-link"
                 >
-                  View credential ↗
+                  {{ cert.type === "Certificate" ? "View Certificate ↗" : "View credential ↗" }}
                 </a>
 
-                <span v-else class="pending-link"> Credential details to be added </span>
               </div>
             </div>
           </article>
@@ -392,21 +391,42 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
   border-top: 1px solid #eee7ea;
 }
 
-.cert-date,
-.pending-link {
+.cert-date {
   color: var(--muted);
   font-size: 0.78rem;
 }
 
 .credential-link {
-  color: var(--burgundy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--orange);
+  color: #171e21;
   font-size: 0.82rem;
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-.credential-link:hover {
-  color: #b65c18;
+.credential-link:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ff922b;
+}
+
+.credential-link:focus-visible {
+  outline: 3px solid #b65c18;
+  outline-offset: 3px;
+}
+
+.credential-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .empty-state {
