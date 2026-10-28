@@ -142,7 +142,7 @@ function submitForm() {
   gap: clamp(32px, 6vw, 80px);
   padding: 72px clamp(24px, 7vw, 100px);
   color: #f5f2f3;
-  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
+  background: var(--page-background);
 }
 
 .contact-content {

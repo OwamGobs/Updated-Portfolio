@@ -1,116 +1,140 @@
 <script setup>
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import About from './views/About.vue'
-import Certifications from './views/Certifications.vue'
-import Contact from './views/Contact.vue'
-import Home from './views/Home.vue'
-import Projects from './views/Projects.vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import About from "./views/About.vue";
+import Certifications from "./views/Certifications.vue";
+import Contact from "./views/Contact.vue";
+import Home from "./views/Home.vue";
+import Projects from "./views/Projects.vue";
 
-const route = useRoute()
-const router = useRouter()
-const activeSection = ref(String(route.name || 'home'))
-const showGreeting = ref(false)
-const greetingMessage = ref('')
-const waveKey = ref(0)
-const greetingDuration = 4000
-let sectionObserver
+const route = useRoute();
+const router = useRouter();
+const activeSection = ref(String(route.name || "home"));
+const showGreeting = ref(false);
+const greetingMessage = ref("");
+const greetingSupportingMessage = ref("");
+const greetingIsCertificationOpportunity = ref(false);
+const certificationOpportunityShown = ref(false);
+const waveKey = ref(0);
+const greetingDuration = 4000;
+let sectionObserver;
+let greetingTimeout;
 
 const routeGreetings = {
-  about: 'Curious about me? Let me introduce myself!',
+  about: "Curious about me? Let me introduce myself!",
   projects: "Here are some projects I've been working on!",
   certifications: "Here's what I've been learning and achieving!",
   contact: "Want to connect? Let's talk!",
-}
+};
 
 const navigation = [
-  { id: 'home', label: 'Home', icon: 'bi-house-door', component: Home },
-  { id: 'about', label: 'About', icon: 'bi-person', component: About },
-  { id: 'projects', label: 'Projects', icon: 'bi-folder2-open', component: Projects },
+  { id: "home", label: "Home", icon: "bi-house-door", component: Home },
+  { id: "about", label: "About", icon: "bi-person", component: About },
+  { id: "projects", label: "Projects", icon: "bi-folder2-open", component: Projects },
   {
-    id: 'certifications',
-    label: 'Certifications',
-    icon: 'bi-award',
+    id: "certifications",
+    label: "Certifications",
+    icon: "bi-award",
     component: Certifications,
   },
-  { id: 'contact', label: 'Contact', icon: 'bi-envelope', component: Contact },
-]
+  { id: "contact", label: "Contact", icon: "bi-envelope", component: Contact },
+];
 
 watch(
   () => route.fullPath,
   (_, __, onCleanup) => {
-    showGreeting.value = false
+    window.clearTimeout(greetingTimeout);
+    showGreeting.value = false;
+    greetingIsCertificationOpportunity.value = false;
+    greetingSupportingMessage.value = "";
+    if (route.name !== "certifications") {
+      certificationOpportunityShown.value = false;
+    }
     greetingMessage.value =
-      route.name === 'home' || route.path === '/'
-        ? 'Welcome to my portfolio.'
-        : routeGreetings[route.name] ?? 'Welcome! Take a look around my portfolio.'
-    waveKey.value += 1
-    showGreeting.value = true
+      route.name === "home" || route.path === "/"
+        ? "Welcome to my portfolio."
+        : (routeGreetings[route.name] ?? "Welcome! Take a look around my portfolio.");
+    waveKey.value += 1;
+    showGreeting.value = true;
 
-    const greetingTimeout = window.setTimeout(() => {
-      showGreeting.value = false
-    }, greetingDuration)
+    greetingTimeout = window.setTimeout(() => {
+      showGreeting.value = false;
+    }, greetingDuration);
 
-    onCleanup(() => window.clearTimeout(greetingTimeout))
+    onCleanup(() => window.clearTimeout(greetingTimeout));
   },
   { immediate: true },
-)
+);
 
-function scrollToSection(id, behavior = 'smooth') {
-  document.getElementById(id)?.scrollIntoView({ behavior, block: 'start' })
+function showCertificationOpportunity() {
+  if (route.name !== "certifications" || certificationOpportunityShown.value) return;
+
+  certificationOpportunityShown.value = true;
+  window.clearTimeout(greetingTimeout);
+  greetingIsCertificationOpportunity.value = true;
+  greetingMessage.value = "Your next project could start here.";
+  greetingSupportingMessage.value =
+    "Looking for someone ready to learn, build, and contribute? Let's connect and explore what's possible.";
+  showGreeting.value = true;
+}
+
+function dismissCertificationOpportunity() {
+  showGreeting.value = false;
+}
+
+function scrollToSection(id, behavior = "smooth") {
+  document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
 }
 
 watch(
   () => route.name,
   (name) => {
-    const id = String(name || 'home')
-    if (activeSection.value === id) return
+    const id = String(name || "home");
+    if (activeSection.value === id) return;
 
-    activeSection.value = id
-    scrollToSection(id)
+    activeSection.value = id;
+    scrollToSection(id);
   },
-)
+);
 
 onMounted(async () => {
-  await nextTick()
-  scrollToSection(activeSection.value, 'auto')
+  await nextTick();
+  scrollToSection(activeSection.value, "auto");
 
   sectionObserver = new IntersectionObserver(
     (entries) => {
       const visibleSection = entries
         .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-      if (!visibleSection) return
+      if (!visibleSection) return;
 
-      const id = visibleSection.target.id
-      if (activeSection.value === id) return
+      const id = visibleSection.target.id;
+      if (activeSection.value === id) return;
 
-      activeSection.value = id
-      if (route.name !== 'not-found' && route.name !== id) {
-        router.replace({ name: id })
+      activeSection.value = id;
+      if (route.name !== "not-found" && route.name !== id) {
+        router.replace({ name: id });
       }
     },
-    { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
-  )
+    { rootMargin: "-35% 0px -55% 0px", threshold: 0 },
+  );
 
   navigation.forEach(({ id }) => {
-    const section = document.getElementById(id)
-    if (section) sectionObserver.observe(section)
-  })
-})
+    const section = document.getElementById(id);
+    if (section) sectionObserver.observe(section);
+  });
+});
 
 onBeforeUnmount(() => {
-  sectionObserver?.disconnect()
-})
+  sectionObserver?.disconnect();
+});
 </script>
 
 <template>
   <div class="portfolio-layout">
     <aside class="sidebar">
-      <RouterLink class="brand" to="/">
-        Owam<span>.</span>
-      </RouterLink>
+      <RouterLink class="brand" to="/"> Owam<span>.</span> </RouterLink>
 
       <p class="menu-label">MENU</p>
 
@@ -138,7 +162,10 @@ onBeforeUnmount(() => {
         class="portfolio-section"
         :aria-label="item.label"
       >
-        <component :is="item.component" />
+        <component
+          :is="item.component"
+          @reach-bottom="item.id === 'certifications' && showCertificationOpportunity()"
+        />
       </section>
     </main>
 
@@ -147,6 +174,13 @@ onBeforeUnmount(() => {
         <div v-if="showGreeting" class="robot-greeting" role="status">
           <span class="robot-wave-emoji" aria-hidden="true">👋</span>
           <strong>{{ greetingMessage }}</strong>
+          <p v-if="greetingSupportingMessage" class="robot-greeting-supporting">
+            {{ greetingSupportingMessage }}
+          </p>
+          <div v-if="greetingIsCertificationOpportunity" class="robot-message-actions">
+            <RouterLink to="/contact">Let's talk</RouterLink>
+            <button type="button" @click="dismissCertificationOpportunity">Maybe later</button>
+          </div>
         </div>
       </Transition>
 
@@ -160,11 +194,7 @@ onBeforeUnmount(() => {
         <div class="robot-neck"></div>
         <div class="robot-body"></div>
         <div class="robot-arm robot-arm-left"></div>
-        <div
-          :key="waveKey"
-          class="robot-arm robot-arm-right"
-          :class="{ 'is-waving': waveKey > 0 }"
-        >
+        <div :key="waveKey" class="robot-arm robot-arm-right" :class="{ 'is-waving': waveKey > 0 }">
           <div class="robot-hand"></div>
         </div>
       </div>
@@ -357,6 +387,33 @@ onBeforeUnmount(() => {
   font-size: 15px;
 }
 
+.robot-greeting-supporting {
+  color: #f4f4f4;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.robot-message-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+  pointer-events: auto;
+}
+
+.robot-message-actions a,
+.robot-message-actions button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #f47b0b;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
 .robot-wave-emoji {
   font-size: 22px;
   animation: greetingWave 1s ease-in-out 1s 3;
@@ -505,26 +562,57 @@ onBeforeUnmount(() => {
 }
 
 @keyframes robotWave {
-  0%, 100% { transform: rotate(-38deg); }
-  25%, 65% { transform: rotate(-105deg); }
-  45%, 85% { transform: rotate(-65deg); }
+  0%,
+  100% {
+    transform: rotate(-38deg);
+  }
+  25%,
+  65% {
+    transform: rotate(-105deg);
+  }
+  45%,
+  85% {
+    transform: rotate(-65deg);
+  }
 }
 
 @keyframes greetingWave {
-  0%, 100% { transform: rotate(0); }
-  25% { transform: rotate(25deg); }
-  50% { transform: rotate(-15deg); }
-  75% { transform: rotate(20deg); }
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(25deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(20deg);
+  }
 }
 
 @keyframes robotFloat {
-  0%, 100% { transform: translateY(0) scale(var(--robot-scale)); }
-  50% { transform: translateY(-3px) scale(var(--robot-scale)); }
+  0%,
+  100% {
+    transform: translateY(0) scale(var(--robot-scale));
+  }
+  50% {
+    transform: translateY(-3px) scale(var(--robot-scale));
+  }
 }
 
 @keyframes robotBlink {
-  0%, 45%, 48%, 100% { transform: scaleY(1); }
-  46%, 47% { transform: scaleY(0.15); }
+  0%,
+  45%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+  46%,
+  47% {
+    transform: scaleY(0.15);
+  }
 }
 
 @media (min-width: 601px) and (max-width: 1280px) {

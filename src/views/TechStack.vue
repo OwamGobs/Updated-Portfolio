@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
   min-height: 100vh;
   padding: 88px clamp(24px, 7vw, 96px) 60px;
   color: var(--ink);
-  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
+  background: var(--page-background);
   font-family: Inter, Arial, sans-serif;
 }
 

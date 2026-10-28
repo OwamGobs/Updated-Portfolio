@@ -1,10 +1,13 @@
 <script setup>
-import { nextTick, ref } from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import cybersecurityCertificate from "../assets/introduction-to-cybersecurity-certificate.png";
 import dataScienceCertificate from "../assets/introduction-to-data-science-certificate.png";
 
 const certificateDialog = ref(null);
 const activeCertificate = ref(null);
+const pageEndMarker = ref(null);
+const emit = defineEmits(["reach-bottom"]);
+let previousScrollPosition = 0;
 
 const credentialGroups = [
   {
@@ -56,7 +59,8 @@ const credentialGroups = [
       {
         title: "Introduction to Cybersecurity",
         type: "Badge",
-        issuer: "Cisco",
+        issuer: "Cisco Networking Academy",
+        issuerUrl: "https://www.credly.com/org/cisco",
         date: "31 August 2026",
         category: "Cybersecurity",
         description:
@@ -65,6 +69,20 @@ const credentialGroups = [
           "https://www.credly.com/badges/8b2c3069-aff3-4ce7-9fc5-81364e75a693/public_url",
         image:
           "https://images.credly.com/size/680x680/images/af8c6b4e-fc31-47c4-8dcb-eb7a2065dc5b/I2CS__1_.png",
+      },
+      {
+        title: "Introduction to Data Science",
+        type: "Badge",
+        issuer: "Cisco",
+        issuerUrl: "https://www.credly.com/org/cisco",
+        date: "31 August 2026",
+        category: "Data Science",
+        badgeTags: ["Learning", "Foundational", "Free"],
+        credentialUrl:
+          "https://www.credly.com/badges/453860d9-886b-4c2f-99e0-f8ba13b2c7fd/public_url",
+        description:
+          "Cisco verifies the earner of this badge successfully completed the Introduction to Data Science course.",
+        image: "/certificates/introduction-to-data-science-badge.png",
       },
     ],
   },
@@ -83,6 +101,28 @@ async function openCertificate(cert) {
 function closeCertificate() {
   activeCertificate.value = null;
 }
+
+function checkPageEnd() {
+  const currentScrollPosition = window.scrollY;
+  const scrollingDown = currentScrollPosition > previousScrollPosition;
+  previousScrollPosition = currentScrollPosition;
+
+  if (!scrollingDown || !pageEndMarker.value) return;
+
+  const markerBounds = pageEndMarker.value.getBoundingClientRect();
+  if (markerBounds.top <= window.innerHeight && markerBounds.bottom >= 0) {
+    emit("reach-bottom");
+  }
+}
+
+onMounted(() => {
+  previousScrollPosition = window.scrollY;
+  window.addEventListener("scroll", checkPageEnd, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", checkPageEnd);
+});
 </script>
 
 <template>
@@ -119,6 +159,7 @@ function closeCertificate() {
         v-for="(group, groupIndex) in credentialGroups"
         :key="group.title"
         class="credential-group"
+        :class="{ 'badge-group': group.title === 'Badges' }"
       >
         <h3 class="credential-group-title">{{ group.title }}</h3>
 
@@ -127,71 +168,116 @@ function closeCertificate() {
             v-for="(cert, index) in group.items"
             :key="cert.title"
             class="cert-card"
+            :class="{ 'badge-card': cert.type === 'Badge' }"
             :style="{ '--delay': `${(groupIndex * 2 + index) * 100}ms` }"
           >
-            <div
-              class="cert-visual"
-              :class="{
-                'has-certificate-image': cert.image,
-                'is-compact-preview': cert.compactPreview,
-                'has-document-preview': cert.previewDocument,
-              }"
-            >
-              <iframe
-                v-if="cert.previewDocument && isPdfCertificate(cert.documentUrl)"
-                :src="`${cert.documentUrl}#page=1&zoom=page-fit&toolbar=0&navpanes=0`"
-                :title="cert.title + ' preview'"
-                loading="lazy"
-                tabindex="-1"
-                aria-hidden="true"
-              ></iframe>
+            <template v-if="cert.type === 'Badge'">
+              <div class="badge-card-main">
+                <img
+                  class="badge-image"
+                  :src="cert.image"
+                  :alt="cert.title + ' badge'"
+                  loading="lazy"
+                />
 
-              <img
-                v-else-if="cert.image"
-                :src="cert.image"
-                :alt="cert.title + ' ' + cert.type.toLowerCase()"
-                loading="lazy"
-              />
-
-              <div v-else-if="!cert.previewDocument" class="certificate-placeholder">
-                <span class="certificate-icon">✦</span>
-                <span>{{ cert.type.toUpperCase() }}</span>
-                <small>{{ cert.category }}</small>
+                <div class="badge-details">
+                  <h3>{{ cert.title }}</h3>
+                  <p>
+                    Issued by
+                    <a
+                      v-if="cert.issuerUrl"
+                      :href="cert.issuerUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ cert.issuer }}
+                    </a>
+                    <template v-else>{{ cert.issuer }}</template>
+                  </p>
+                  <p v-if="cert.date">{{ cert.date }}</p>
+                  <div v-if="cert.badgeTags?.length" class="badge-tags">
+                    <span v-for="tag in cert.badgeTags" :key="tag">{{ tag }}</span>
+                  </div>
+                  <a
+                    v-if="cert.credentialUrl"
+                    :href="cert.credentialUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="badge-credential-link"
+                  >
+                    View Verified Badge <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
               </div>
 
-              <span class="verified-label">{{ cert.type }}</span>
-            </div>
+              <p class="badge-description">{{ cert.description }}</p>
+            </template>
 
-            <div class="cert-content">
-              <p class="cert-category">{{ cert.category }}</p>
-              <h3>{{ cert.title }}</h3>
-              <p class="issuer">{{ cert.issuer }}</p>
-              <p class="cert-description">{{ cert.description }}</p>
+            <template v-else>
+              <div
+                class="cert-visual"
+                :class="{
+                  'has-certificate-image': cert.image,
+                  'is-compact-preview': cert.compactPreview,
+                  'has-document-preview': cert.previewDocument,
+                }"
+              >
+                <iframe
+                  v-if="cert.previewDocument && isPdfCertificate(cert.documentUrl)"
+                  :src="`${cert.documentUrl}#page=1&zoom=page-fit&toolbar=0&navpanes=0`"
+                  :title="cert.title + ' preview'"
+                  loading="lazy"
+                  tabindex="-1"
+                  aria-hidden="true"
+                />
 
-              <div class="cert-footer">
-                <span class="cert-date">{{ cert.date }}</span>
+                <img
+                  v-else-if="cert.image"
+                  :src="cert.image"
+                  :alt="cert.title + ' ' + cert.type.toLowerCase()"
+                  loading="lazy"
+                />
 
-                <a
-                  v-if="cert.credentialUrl"
-                  :href="cert.credentialUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="credential-link"
-                >
-                  {{ cert.type === "Certificate" ? "View Certificate ↗" : "View credential ↗" }}
-                </a>
+                <div v-else-if="!cert.previewDocument" class="certificate-placeholder">
+                  <span class="certificate-icon">✦</span>
+                  <span>{{ cert.type.toUpperCase() }}</span>
+                  <small>{{ cert.category }}</small>
+                </div>
+
+                <span class="verified-label">{{ cert.type }}</span>
               </div>
 
-              <div v-if="cert.showCertificateButton" class="cert-actions">
-                <button
-                  class="credential-link certificate-button"
-                  type="button"
-                  @click="openCertificate(cert)"
-                >
-                  View Certificate
-                </button>
+              <div class="cert-content">
+                <p class="cert-category">{{ cert.category }}</p>
+                <h3>{{ cert.title }}</h3>
+                <p class="issuer">{{ cert.issuer }}</p>
+                <p class="cert-description">{{ cert.description }}</p>
+
+                <div class="cert-footer">
+                  <span class="cert-date">{{ cert.date }}</span>
+
+                  <a
+                    v-if="cert.credentialUrl"
+                    :href="cert.credentialUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="credential-link"
+                  >
+                    {{ cert.type === "Certificate" ? "View Certificate ↗" : "View credential ↗" }}
+                  </a>
+                </div>
+
+                <div v-if="cert.showCertificateButton" class="cert-actions">
+                  <button
+                    class="credential-link certificate-button"
+                    type="button"
+                    @click="openCertificate(cert)"
+                  >
+                    View Certificate
+                  </button>
+                </div>
               </div>
-            </div>
+            </template>
           </article>
         </div>
       </section>
@@ -244,6 +330,8 @@ function closeCertificate() {
         </a>
       </template>
     </dialog>
+
+    <div ref="pageEndMarker" class="cert-page-end" aria-hidden="true"></div>
   </main>
 </template>
 
@@ -254,9 +342,10 @@ function closeCertificate() {
   --ink: #f5f2f3;
   --muted: #e6dfe2;
 
+  position: relative;
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(ellipse at 38% 48%, #343434 0%, #5d5d5d 54%, #858585 100%);
+  background: var(--page-background);
   font-family: Inter, Arial, sans-serif;
 }
 
@@ -348,6 +437,10 @@ function closeCertificate() {
   gap: 26px;
 }
 
+.badge-group .cert-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .credential-group + .credential-group {
   margin-top: 48px;
 }
@@ -372,6 +465,99 @@ function closeCertificate() {
 
 .cert-card:hover {
   transform: translateY(-5px);
+}
+
+.badge-card {
+  --ink: #171e21;
+  --muted: #706970;
+  padding: 16px;
+  background: white;
+  color: var(--ink);
+}
+
+.badge-card:hover {
+  transform: none;
+}
+
+.badge-card-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.badge-image {
+  display: block;
+  width: 118px;
+  height: 118px;
+  flex: 0 0 118px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.badge-details {
+  min-width: 0;
+}
+
+.badge-details h3 {
+  margin: 0 0 5px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.badge-details p {
+  margin: 2px 0;
+  color: var(--muted);
+}
+
+.badge-details p a {
+  color: var(--burgundy);
+  font-weight: 600;
+  text-underline-offset: 2px;
+}
+
+.badge-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.badge-tags span {
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: #f3edf0;
+  color: #5f3346;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.badge-credential-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3px;
+  color: var(--orange);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.badge-credential-link:hover {
+  color: #ff922b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.badge-credential-link:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.badge-description {
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #eee7ea;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .cert-visual {
@@ -633,6 +819,14 @@ function closeCertificate() {
   text-underline-offset: 3px;
 }
 
+.cert-page-end {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+}
+
 .empty-state {
   padding: 40px 0;
   color: var(--muted);
@@ -744,6 +938,34 @@ function closeCertificate() {
 
   .certificate-dialog-preview iframe {
     height: 68dvh;
+  }
+
+  .badge-card {
+    padding: 14px;
+  }
+
+  .badge-card-main {
+    gap: 12px;
+  }
+
+  .badge-image {
+    width: 84px;
+    height: 84px;
+    flex-basis: 84px;
+    border-radius: 14px;
+  }
+
+  .badge-details h3 {
+    font-size: 1rem;
+  }
+
+  .badge-details p,
+  .badge-credential-link {
+    font-size: 0.82rem;
+  }
+
+  .badge-tags span {
+    font-size: 0.65rem;
   }
 }
 

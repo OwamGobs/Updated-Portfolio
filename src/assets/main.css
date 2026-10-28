@@ -1,5 +1,14 @@
 @import './base.css';
 
+:root {
+  --page-background: radial-gradient(
+    ellipse at 38% 48%,
+    #343434 0%,
+    #5d5d5d 54%,
+    #858585 100%
+  );
+}
+
 html {
   min-width: 320px;
   scroll-behavior: smooth;

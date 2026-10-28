@@ -82,7 +82,7 @@ import profilePhoto from "../assets/profile.jpg";
 :root {
   font-family: "Inter", sans-serif;
   color: #171e21;
-  background: #d7d4d5;
+  background: var(--page-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -117,12 +117,7 @@ a {
   flex-direction: column;
   padding: 24px 4.2% 32px;
   color: #f4f4f4;
-  background: radial-gradient(
-    ellipse at 38% 48%,
-    #343434 0%,
-    #5d5d5d 54%,
-    #858585 100%
-  );
+  background: var(--page-background);
 }
 
 /* Main hero layout */

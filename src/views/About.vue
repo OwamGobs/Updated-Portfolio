@@ -14,10 +14,7 @@
 
         <div class="about-body">
           <div class="about-content">
-            <h2>
-              Hello! I'm <span>Owam Gobinca</span>, an aspiring software
-              developer.
-            </h2>
+
 
             <p class="intro">
               I’m Owam, an aspiring software developer with a passion for
@@ -96,12 +93,7 @@
 
   min-height: 100vh;
   color: var(--text);
-  background: radial-gradient(
-    ellipse at 38% 48%,
-    #343434 0%,
-    #5d5d5d 54%,
-    #858585 100%
-  );
+  background: var(--page-background);
   font-family: Inter, Arial, sans-serif;
 }
 
