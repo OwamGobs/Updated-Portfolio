@@ -1,7 +1,10 @@
 <script setup>
+import { nextTick, ref } from "vue";
 import cybersecurityCertificate from "../assets/introduction-to-cybersecurity-certificate.png";
 import dataScienceCertificate from "../assets/introduction-to-data-science-certificate.png";
-import youthCodeCertificate from "../assets/youthcode-certificate.png";
+
+const certificateDialog = ref(null);
+const activeCertificate = ref(null);
 
 const credentialGroups = [
   {
@@ -16,7 +19,10 @@ const credentialGroups = [
         description:
           "Awarded for completing the YouthCode software development project, covering ICT, front-end development, database and back-end development, e-commerce, and personal and professional development.",
         credentialUrl: "",
-        image: youthCodeCertificate,
+        documentUrl: "/Scanned%20Document.pdf",
+        showCertificateButton: true,
+        compactPreview: true,
+        previewDocument: true,
       },
       {
         title: "Introduction to Cybersecurity",
@@ -28,6 +34,7 @@ const credentialGroups = [
           "Completed the Introduction to Cybersecurity course, covering online safety, common cyber threats and vulnerabilities, protection strategies, and cybersecurity career pathways.",
         credentialUrl: "",
         image: cybersecurityCertificate,
+        documentUrl: "/certificates/introduction-to-cybersecurity-certificate.png",
       },
       {
         title: "Introduction to Data Science",
@@ -39,6 +46,7 @@ const credentialGroups = [
           "Completed the Introduction to Data Science course through the Cisco Networking Academy program at Life Choices Academy.",
         credentialUrl: "",
         image: dataScienceCertificate,
+        documentUrl: "/certificates/introduction-to-data-science-certificate.png",
       },
     ],
   },
@@ -63,6 +71,18 @@ const credentialGroups = [
 ];
 
 const credentialCount = credentialGroups.reduce((total, group) => total + group.items.length, 0);
+
+const isPdfCertificate = (url) => /\.pdf(?:[?#]|$)/i.test(url);
+
+async function openCertificate(cert) {
+  activeCertificate.value = cert;
+  await nextTick();
+  certificateDialog.value?.showModal();
+}
+
+function closeCertificate() {
+  activeCertificate.value = null;
+}
 </script>
 
 <template>
@@ -109,15 +129,31 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
             class="cert-card"
             :style="{ '--delay': `${(groupIndex * 2 + index) * 100}ms` }"
           >
-            <div class="cert-visual" :class="{ 'has-certificate-image': cert.image }">
+            <div
+              class="cert-visual"
+              :class="{
+                'has-certificate-image': cert.image,
+                'is-compact-preview': cert.compactPreview,
+                'has-document-preview': cert.previewDocument,
+              }"
+            >
+              <iframe
+                v-if="cert.previewDocument && isPdfCertificate(cert.documentUrl)"
+                :src="`${cert.documentUrl}#page=1&zoom=page-fit&toolbar=0&navpanes=0`"
+                :title="cert.title + ' preview'"
+                loading="lazy"
+                tabindex="-1"
+                aria-hidden="true"
+              ></iframe>
+
               <img
-                v-if="cert.image"
+                v-else-if="cert.image"
                 :src="cert.image"
                 :alt="cert.title + ' ' + cert.type.toLowerCase()"
                 loading="lazy"
               />
 
-              <div v-else class="certificate-placeholder">
+              <div v-else-if="!cert.previewDocument" class="certificate-placeholder">
                 <span class="certificate-icon">✦</span>
                 <span>{{ cert.type.toUpperCase() }}</span>
                 <small>{{ cert.category }}</small>
@@ -144,7 +180,16 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
                 >
                   {{ cert.type === "Certificate" ? "View Certificate ↗" : "View credential ↗" }}
                 </a>
+              </div>
 
+              <div v-if="cert.showCertificateButton" class="cert-actions">
+                <button
+                  class="credential-link certificate-button"
+                  type="button"
+                  @click="openCertificate(cert)"
+                >
+                  View Certificate
+                </button>
               </div>
             </div>
           </article>
@@ -152,6 +197,53 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
       </section>
     </section>
 
+    <dialog
+      ref="certificateDialog"
+      class="certificate-dialog"
+      aria-labelledby="certificate-dialog-title"
+      @click.self="certificateDialog?.close()"
+      @close="closeCertificate"
+    >
+      <template v-if="activeCertificate">
+        <div class="certificate-dialog-header">
+          <h2 id="certificate-dialog-title">{{ activeCertificate.title }}</h2>
+          <button
+            class="certificate-dialog-close"
+            type="button"
+            aria-label="Close certificate preview"
+            autofocus
+            @click="certificateDialog?.close()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="certificate-dialog-preview">
+          <iframe
+            v-if="isPdfCertificate(activeCertificate.documentUrl)"
+            :src="activeCertificate.documentUrl"
+            :title="activeCertificate.title"
+          ></iframe>
+          <img
+            v-else-if="/\.(?:jpe?g|png)(?:[?#]|$)/i.test(activeCertificate.documentUrl)"
+            :src="activeCertificate.documentUrl"
+            :alt="activeCertificate.title"
+          />
+          <p v-else>
+            Preview unavailable for this file type. Use the link below to open the document.
+          </p>
+        </div>
+
+        <a
+          class="certificate-open-link"
+          :href="activeCertificate.documentUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open certificate in a new tab ↗
+        </a>
+      </template>
+    </dialog>
   </main>
 </template>
 
@@ -302,6 +394,26 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
   aspect-ratio: 4 / 5;
 }
 
+.cert-visual.is-compact-preview {
+  aspect-ratio: 16 / 9;
+}
+
+.cert-visual.is-compact-preview img {
+  object-fit: contain;
+}
+
+.cert-visual.has-document-preview {
+  aspect-ratio: 16 / 9;
+  background: #f2e7eb;
+}
+
+.cert-visual.has-document-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
 .cert-visual.has-certificate-image img {
   object-fit: contain;
 }
@@ -387,6 +499,20 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
   border-top: 1px solid #eee7ea;
 }
 
+.cert-actions {
+  margin-top: 16px;
+}
+
+.certificate-button {
+  width: 100%;
+  cursor: pointer;
+  color: #171e21;
+}
+
+.certificate-button:hover {
+  color: #171e21;
+}
+
 .cert-date {
   color: var(--muted);
   font-size: 0.78rem;
@@ -423,6 +549,88 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
 .credential-link:disabled {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+.certificate-dialog {
+  width: min(1100px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 20px;
+  overflow: auto;
+  border: 1px solid rgba(146, 0, 57, 0.25);
+  border-radius: 13px;
+  background: white;
+  color: #171e21;
+}
+
+.certificate-dialog::backdrop {
+  background: rgba(23, 30, 33, 0.72);
+}
+
+.certificate-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.certificate-dialog-header h2 {
+  margin: 0;
+  color: var(--burgundy);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+.certificate-dialog-close {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--burgundy);
+  border-radius: 9px;
+  background: white;
+  color: var(--burgundy);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.certificate-dialog-close:hover {
+  background: var(--burgundy);
+  color: white;
+}
+
+.certificate-dialog-preview {
+  display: grid;
+  min-height: 260px;
+  max-height: calc(100dvh - 160px);
+  aspect-ratio: 16 / 10;
+  place-items: center;
+  overflow: auto;
+  background: #f2e7eb;
+}
+
+.certificate-dialog-preview iframe {
+  width: 100%;
+  height: min(68dvh, 720px);
+  border: 0;
+  background: white;
+}
+
+.certificate-dialog-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100dvh - 200px);
+  object-fit: contain;
+}
+
+.certificate-open-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: var(--burgundy);
+  font-weight: 700;
+  text-underline-offset: 3px;
 }
 
 .empty-state {
@@ -526,6 +734,16 @@ const credentialCount = credentialGroups.reduce((total, group) => total + group.
     align-items: center;
     flex-direction: column;
     text-align: center;
+  }
+
+  .certificate-dialog {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 14px;
+  }
+
+  .certificate-dialog-preview iframe {
+    height: 68dvh;
   }
 }
 
