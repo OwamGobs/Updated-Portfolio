@@ -58,14 +58,6 @@
               />
             </div>
 
-            <div class="floating-note">
-              <span class="note-icon">✦</span>
-              <div>
-                <strong>Always learning</strong>
-                <p>Building. Improving. Growing.</p>
-              </div>
-            </div>
-
             <span class="decorative-dot dot-one"></span>
             <span class="decorative-dot dot-two"></span>
           </div>
@@ -204,35 +196,6 @@
   border-radius: 48% 48% 8px 8px;
 }
 
-.floating-note {
-  --muted: #706b72;
-
-  position: absolute;
-  bottom: 35px;
-  left: -45px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 17px 20px;
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.note-icon {
-  color: var(--orange);
-  font-size: 1.8rem;
-}
-
-.floating-note strong {
-  font-size: 0.9rem;
-}
-
-.floating-note p {
-  color: var(--muted);
-  font-size: 0.75rem;
-  margin: 5px 0 0;
-}
-
 .decorative-dot {
   position: absolute;
   display: block;
@@ -326,12 +289,6 @@
 
   .about-heading h1 {
     letter-spacing: -1.5px;
-  }
-
-  .floating-note {
-    left: -8px;
-    bottom: 20px;
-    padding: 12px;
   }
 
   .footer {
