@@ -48,8 +48,8 @@ const projects = ref([
       "A student-focused application project designed to support the application process, with profile management and contact functionality.",
     technologies: ["Vue.js", "Node.js", "Express", "MySQL"],
     image: applyDirectImage,
-    liveUrl: "https://api-production-275b.up.railway.app/",
-    githubUrl: "",
+    liveUrl: "",
+    githubUrl: "https://github.com/stephanbennett42-ctrl/applydirect-sa",
   },
 ]);
 
