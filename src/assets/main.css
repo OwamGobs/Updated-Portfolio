@@ -26,8 +26,11 @@ body {
   text-shadow: none !important;
 }
 
-#nl-badge {
-  display: none;
+#netlify-badge,
+#nl-badge,
+.netlify-badge,
+[data-netlify-badge] {
+  display: none !important;
 }
 
 #app {
