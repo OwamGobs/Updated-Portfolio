@@ -267,8 +267,9 @@ onBeforeUnmount(() => {
                   </a>
                 </div>
 
-                <div v-if="cert.showCertificateButton" class="cert-actions">
+                <div class="cert-actions">
                   <button
+                    v-if="cert.showCertificateButton"
                     class="credential-link certificate-button"
                     type="button"
                     @click="openCertificate(cert)"
@@ -434,6 +435,8 @@ onBeforeUnmount(() => {
 .cert-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
   gap: 26px;
 }
 
@@ -453,6 +456,8 @@ onBeforeUnmount(() => {
 .cert-card {
   --ink: #171e21;
   --muted: #706970;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(101, 27, 50, 0.1);
   border-radius: 13px;
@@ -481,6 +486,7 @@ onBeforeUnmount(() => {
 
 .badge-card-main {
   display: flex;
+  flex: 1;
   align-items: flex-start;
   gap: 16px;
 }
@@ -564,7 +570,8 @@ onBeforeUnmount(() => {
   position: relative;
   display: grid;
   place-items: center;
-  aspect-ratio: 16 / 9;
+  height: 220px;
+  flex: 0 0 220px;
   overflow: hidden;
   background: #eee3e8;
 }
@@ -572,24 +579,10 @@ onBeforeUnmount(() => {
 .cert-visual img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.cert-visual.has-certificate-image {
-  aspect-ratio: 4 / 5;
-}
-
-.cert-visual.is-compact-preview {
-  aspect-ratio: 16 / 9;
-}
-
-.cert-visual.is-compact-preview img {
   object-fit: contain;
 }
 
 .cert-visual.has-document-preview {
-  aspect-ratio: 16 / 9;
   background: #f2e7eb;
 }
 
@@ -598,14 +591,6 @@ onBeforeUnmount(() => {
   height: 100%;
   border: 0;
   pointer-events: none;
-}
-
-.cert-visual.has-certificate-image img {
-  object-fit: contain;
-}
-
-.cert-card:hover .cert-visual img {
-  transform: scale(1.035);
 }
 
 .certificate-placeholder {
@@ -647,28 +632,37 @@ onBeforeUnmount(() => {
 }
 
 .cert-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 25px;
 }
 
 .cert-category {
+  min-height: 1.2em;
+  margin: 0;
   color: #b65c18;
   font-size: 0.75rem;
   font-weight: 700;
 }
 
 .cert-content h3 {
+  min-height: 2.4em;
   margin: 12px 0 8px;
   font-size: 1.35rem;
   letter-spacing: -0.035em;
 }
 
 .issuer {
+  min-height: 2.4em;
+  margin: 0;
   color: var(--burgundy);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .cert-description {
+  flex: 1;
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.8;
@@ -680,13 +674,14 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: auto;
   padding-top: 17px;
   border-top: 1px solid #eee7ea;
 }
 
 .cert-actions {
   margin-top: 16px;
+  min-height: 33px;
 }
 
 .certificate-button {
